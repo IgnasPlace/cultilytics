@@ -1,13 +1,22 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: "cultilytics",
+      htmlAttrs: {
+        lang: "en",
+      },
+    },
+  },
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   modules: [
-    "nuxt-maplibre",
+    // "nuxt-maplibre",
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
     "nuxt-toast",
   ],
+  plugins: ["~/plugins/maplibre.js"],
   ssr: false,
   nitro: {
     experimental: {
@@ -38,7 +47,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      maptiler_key: process.env.NUXT_MAPTILER_KEY,
+      maptiler_satellite_url: process.env.NUXT_MAPTILER_SATELLITE_URL,
     },
   },
 });

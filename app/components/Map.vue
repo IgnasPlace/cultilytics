@@ -1,31 +1,71 @@
 <template>
-  <div class="main-container">
-    <div ref="mapContainer" class="map-container"></div>
-    <AddMarker @addMarkerToMap="addNewMarkerToMap" />
+  <div class="w-dvw h-dvh relative text-xs">
+    <MglMap :map-style="style" :center="center" :zoom="zoom">
+      <MglNavigationControl position="bottom-right" />
+      <MglScaleControl position="bottom-left" />
+      <MglMarker
+        v-for="(marker, idx) in allMarkers"
+        :key="idx"
+        ref="markers"
+        :coordinates="[marker.lng, marker.lat]"
+        :color="marker.color"
+        :draggable="marker.draggable"
+        @dragend="handleDragEnd"
+      >
+        <MglPopup
+          v-if="marker.id"
+          ref="popups"
+          :close-button="false"
+          @open="(e) => handlePopupOpen(idx)"
+          @close="(e) => handlePopupClose(idx)"
+        >
+          <h1 class="text-xl text-center">{{ marker.id }}</h1>
+          <p class="text-center mb-2">{{ marker.name }}</p>
+          <button
+            @click="() => showMoreInfo(marker)"
+            class="bg-green-200 py-1 px-2 rounded-md"
+            type="button"
+          >
+            More info
+          </button>
+        </MglPopup>
+      </MglMarker>
+    </MglMap>
+    <WidgetInfo
+      v-if="showInfoWidget && currentSelectedMarker"
+      :data="currentSelectedMarker"
+    />
+    <AddMarker v-else />
   </div>
 </template>
 
 <script setup>
-import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-const config = useRuntimeConfig();
-console.log(config);
+import { useMap } from "@indoorequal/vue-maplibre-gl";
 
-const mapContainer = ref(null);
+const config = useRuntimeConfig();
+
 let map;
 
 const markerStore = useStore("markers");
-const { addMarkerMode, currentUnsavedMarker } = storeToRefs(markerStore);
+const {
+  addMarkerMode,
+  currentPopup,
+  showInfoWidget,
+  allMarkers,
+  currentSelectedMarker,
+  currentUnsavedMarker,
+} = storeToRefs(markerStore);
+
+const style = config.public.maptiler_satellite_url;
+const center = [-0.654144056839913, 39.6823177364732];
+const zoom = 17;
+
+const markerInstances = useTemplateRef("markers");
+const popupInstances = useTemplateRef("popups");
 
 onMounted(async () => {
-  map = new maplibregl.Map({
-    container: mapContainer.value,
-    style: `https://api.maptiler.com/maps/satellite/style.json?key=${config.public.maptiler_key}`,
-    center: [-0.654144056839913, 39.6823177364732],
-    zoom: 17,
-  });
-
-  map.addControl(new maplibregl.NavigationControl(), "top-right");
+  map = useMap().map;
 
   map.on("load", () => {
     loadAllMarkers(map);
@@ -33,51 +73,48 @@ onMounted(async () => {
 
   map.on("click", (e) => {
     if (addMarkerMode.value === "add") {
-      const marker = new maplibregl.Marker({
+      markerStore.setActivateAddMarkerMode("selected");
+      markerStore.setCurrentUnsavedMarker({
+        lng: e.lngLat.lng,
+        lat: e.lngLat.lat,
+        id: "",
+        name: "",
+        name_latin: "",
+        type: "tree",
         color: "#B95E82",
         draggable: true,
-      }).setLngLat(e.lngLat);
-
-      markerStore.setActivateAddMarkerMode("selected");
-      markerStore.setCurrentUnsavedMarker(marker);
-
-      setTimeout(() => marker.addTo(map), 0);
+      });
     }
   });
 });
 
 const loadAllMarkers = async (map) => {
-  const markers = await $fetch("/api/marker");
-  // Load new markers
-  markers.forEach((markerData) => {
-    addNewMarkerToMap(markerData);
-  });
+  try {
+    const markers = await $fetch("/api/marker");
+
+    markerStore.setSavedMarkers(markers);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-const addNewMarkerToMap = (markerData) => {
-  useAddNewMarker(map, markerData);
+const showMoreInfo = (marker) => {
+  currentPopup.value.remove();
+  currentPopup.value = null;
+  showInfoWidget.value = true;
+  currentSelectedMarker.value = marker;
+};
+
+const handlePopupOpen = async (idx) => {
+  await nextTick();
+  currentPopup.value = popupInstances.value[idx];
+};
+const handlePopupClose = (e) => {
+  currentPopup.value = null;
+};
+
+const handleDragEnd = (e) => {
+  currentUnsavedMarker.value.lng = e.target._lngLat.lng;
+  currentUnsavedMarker.value.lat = e.target._lngLat.lat;
 };
 </script>
-
-<style scoped>
-.main-container {
-  height: 100vh;
-  width: 100vw;
-  position: relative;
-}
-.map-container {
-  height: 100%;
-  width: 100%;
-}
-.add-btn {
-  position: absolute;
-  background-color: #fff;
-  padding: 2px 8px;
-  font-size: 12px;
-  z-index: 10;
-  bottom: 2.5rem;
-  right: 0.7rem;
-  border-radius: 4px;
-  box-shadow: 2px 2px 2px #00000070;
-}
-</style>

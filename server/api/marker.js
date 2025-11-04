@@ -34,4 +34,14 @@ export default defineEventHandler(async (event) => {
       return err;
     }
   }
+
+  if (event.node.req.method === "DELETE") {
+    const userData = await readBody(event);
+    const db = useDatabase("myDB");
+
+    const deletedMarker =
+      await db.sql`DELETE FROM marker WHERE id = ${userData.id}`;
+
+    return deletedMarker;
+  }
 });
