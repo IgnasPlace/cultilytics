@@ -2,7 +2,7 @@
   <div class="max-w-md mx-auto absolute top-3 left-3 bg-white rounded-md">
     <div class="card">
       <div
-        class="card-header flex justify-between items-center border-b border-gray-200 px-4 py-2"
+        class="flex justify-between items-center border-b border-gray-200 px-4 py-2"
       >
         <h3 class="text-xl font-bold text-gray-800">{{ data.id }}</h3>
         <button
@@ -13,7 +13,7 @@
         </button>
       </div>
 
-      <div class="card-body px-4 py-2">
+      <div class="px-4 py-2">
         <div
           class="flex justify-between items-center border-b border-[#4c763b82]"
         >
@@ -34,7 +34,7 @@
       </div>
 
       <div
-        class="card-footer flex justify-between gap-4 px-4 py-2 border-t border-gray-200"
+        class="flex justify-between gap-4 px-4 py-2 border-y border-gray-200"
       >
         <button
           @click="deleteMarker"
@@ -48,6 +48,20 @@
           Edit
         </button>
       </div>
+      <div class="flex flex-col gap-2 px-4 py-2">
+        <label
+          for="add-photo-input"
+          class="bg-blue-500 text-white text-center py-1 rounded-md cursor-pointer"
+          >Add photo</label
+        >
+        <input
+          type="file"
+          id="add-photo-input"
+          hidden
+          @input="handleFileInput"
+        />
+        <button @click="handleImageUpload">Submit</button>
+      </div>
     </div>
   </div>
 </template>
@@ -58,11 +72,25 @@ const props = defineProps(["data"]);
 const markerStore = useStore("markers");
 const { showInfoWidget, currentSelectedMarker } = storeToRefs(markerStore);
 
+const { handleFileInput, files } = useFileStorage();
+
 const closeWidget = () => {
   showInfoWidget.value = false;
   currentSelectedMarker.value = null;
 };
 const deleteMarker = () => {
   useDeleteMarker(props.data.id);
+};
+
+const handleImageUpload = async (e) => {
+  // let formData = new FormData();
+  // formData.append("file", e.target.files[0]);
+
+  const response = $fetch(`/api/marker-image/${props.data.id}`, {
+    method: "POST",
+    body: {
+      files: files.value,
+    },
+  });
 };
 </script>

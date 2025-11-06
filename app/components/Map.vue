@@ -36,6 +36,7 @@
       :data="currentSelectedMarker"
     />
     <AddMarker v-else />
+    <WidgetUser />
   </div>
 </template>
 

@@ -11,10 +11,11 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   modules: [
-    // "nuxt-maplibre",
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
     "nuxt-toast",
+    "nuxt-file-storage",
+    "nuxt-auth-utils",
   ],
   plugins: ["~/plugins/maplibre.js"],
   ssr: false,
@@ -22,12 +23,21 @@ export default defineNuxtConfig({
     experimental: {
       database: true,
     },
-    database: {
-      myDB: {
-        connector: "sqlite",
-        options: { name: "db" },
-      },
-    },
+    // database: {
+    //   myDB: {
+    //     connector: "sqlite",
+    //     options: { name: "db" },
+    //   },
+    // },
+    // storage: {
+    //   uploads: {
+    //     driver: "fs",
+    //     base: "./public/uploads",
+    //   },
+    // },
+  },
+  fileStorage: {
+    mount: "./public/uploads",
   },
   tailwindcss: {
     config: {
@@ -41,6 +51,9 @@ export default defineNuxtConfig({
       theme: {
         extend: {
           colors: { primary: "#4C763B", secondary: "#B95E82" },
+          fontFamily: {
+            poppins: ["Poppins", "sans-serif"],
+          },
         },
       },
     },
@@ -48,6 +61,13 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       maptiler_satellite_url: process.env.NUXT_MAPTILER_SATELLITE_URL,
+    },
+    session: {
+      password: "",
+      name: "cltlytix",
+      cookie: {
+        maxAge: 60 * 60 * 24,
+      },
     },
   },
 });

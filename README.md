@@ -1,2 +1,1 @@
-# cultilytics
-Software to track your plants growth.
+# Cultivate analytics APP
