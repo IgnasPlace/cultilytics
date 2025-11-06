@@ -1,24 +1,43 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: "cultilytics",
+      htmlAttrs: {
+        lang: "en",
+      },
+    },
+  },
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   modules: [
-    "nuxt-maplibre",
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
     "nuxt-toast",
+    "nuxt-file-storage",
+    "nuxt-auth-utils",
   ],
+  plugins: ["~/plugins/maplibre.js"],
   ssr: false,
   nitro: {
     experimental: {
       database: true,
     },
-    database: {
-      myDB: {
-        connector: "sqlite",
-        options: { name: "db" },
-      },
-    },
+    // database: {
+    //   myDB: {
+    //     connector: "sqlite",
+    //     options: { name: "db" },
+    //   },
+    // },
+    // storage: {
+    //   uploads: {
+    //     driver: "fs",
+    //     base: "./public/uploads",
+    //   },
+    // },
+  },
+  fileStorage: {
+    mount: "./public/uploads",
   },
   tailwindcss: {
     config: {
@@ -32,13 +51,23 @@ export default defineNuxtConfig({
       theme: {
         extend: {
           colors: { primary: "#4C763B", secondary: "#B95E82" },
+          fontFamily: {
+            poppins: ["Poppins", "sans-serif"],
+          },
         },
       },
     },
   },
   runtimeConfig: {
     public: {
-      maptiler_key: process.env.NUXT_MAPTILER_KEY,
+      maptiler_satellite_url: process.env.NUXT_MAPTILER_SATELLITE_URL,
+    },
+    session: {
+      password: "",
+      name: "cltlytix",
+      cookie: {
+        maxAge: 60 * 60 * 24,
+      },
     },
   },
 });

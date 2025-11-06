@@ -7,17 +7,27 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "migrations:generate": "drizzle-kit generate",
+    "migrations:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
+    "@indoorequal/vue-maplibre-gl": "^8.4.2",
+    "@libsql/client": "^0.15.15",
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@pinia/nuxt": "^0.11.2",
-    "better-sqlite3": "^12.4.1",
+    "drizzle-orm": "^0.44.7",
+    "maplibre-gl": "^5.10.0",
     "nuxt": "^4.1.3",
-    "nuxt-maplibre": "^1.1.1",
+    "nuxt-auth-utils": "^0.5.25",
     "nuxt-toast": "^1.4.0",
     "pinia": "^3.0.3",
     "vue": "^3.5.22",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.5.1",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.6",
+    "nuxt-file-storage": "^0.3.0"
   }
 }

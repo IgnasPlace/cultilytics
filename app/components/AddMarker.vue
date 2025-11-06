@@ -1,9 +1,9 @@
 <template>
   <div
     v-if="loading"
-    class="absolute z-50 bg-[#d6d6d69c] inset-0 flex items-center justify-center"
+    class="fixed z-50 bg-[#d6d6d69c] inset-0 flex items-center justify-center"
   >
-    <p class="text-2xl">Saving...</p>
+    <AtomsSpinner />
   </div>
   <div class="absolute top-3 left-3 text-xs z-10 bg-white p-2 rounded-md">
     <button
@@ -13,9 +13,16 @@
     >
       Add marker
     </button>
-    <p class="" v-else-if="addMarkerMode === 'add'">
-      Please click on the map to add a marker
-    </p>
+    <div v-else-if="addMarkerMode === 'add'">
+      <p class="mb-2">Please click on the map to add a marker</p>
+      <button
+        @click="cancelHandler"
+        type="button"
+        class="bg-rose-100 py-1 px-4 rounded-md disabled:bg-gray-200"
+      >
+        Cancel
+      </button>
+    </div>
     <form
       @submit.prevent="submitSaveMarker"
       class=""
@@ -47,21 +54,17 @@
           <option value="other">Other</option>
         </select>
       </div>
-      <p>Longitude: {{ currentUnsavedMarker._lngLat.lng }}</p>
-      <p>Latitude: {{ currentUnsavedMarker._lngLat.lat }}</p>
       <div class="flex gap-2 mt-4">
         <button
           @click="cancelHandler"
           type="button"
           class="w-1/2 bg-rose-100 py-1 px-2 rounded-md disabled:bg-gray-200"
-          :disabled="buttonsDisabled"
         >
           Cancel
         </button>
         <button
           type="submit"
-          class="w-1/2 bg-green-200 py-1 px-2 rounded-md disabled:bg-gray-200"
-          :disabled="buttonsDisabled"
+          class="w-1/2 bg-green-200 hover:bg-300 py-1 px-2 rounded-md disabled:bg-gray-200"
         >
           Save
         </button>
@@ -71,48 +74,59 @@
 </template>
 
 <script setup>
-const emit = defineEmits(["addMarkerToMap"]);
-
 const markerStore = useStore("markers");
 const { addMarkerMode, currentUnsavedMarker } = storeToRefs(markerStore);
 
-const defaultInputs = {
+const loading = ref(false);
+const inputs = reactive({
   name: "",
   id: "",
   type: "tree",
-};
+});
 
-const buttonsDisabled = ref(false);
-const loading = ref(false);
-const inputs = reactive(defaultInputs);
+onMounted(() => {
+  function handleKeyDown(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === "a") {
+      if (addMarkerMode.value === "off") {
+        e.preventDefault();
+        markerStore.setActivateAddMarkerMode("add");
+      }
+    }
+  }
+  document.addEventListener("keydown", handleKeyDown);
+});
 
 const cancelHandler = () => {
-  buttonsDisabled.value = true;
-  currentUnsavedMarker.value.remove();
-  markerStore.setCurrentUnsavedMarker(null);
+  if (currentUnsavedMarker.value) {
+    markerStore.setCurrentUnsavedMarker(null);
+  }
   markerStore.setActivateAddMarkerMode("off");
-  setTimeout(() => (buttonsDisabled.value = false), 500);
-  inputs.value = defaultInputs;
+  resetInputs();
 };
 
 const submitSaveMarker = async () => {
   const body = {
     id: inputs.id,
-    lng: currentUnsavedMarker.value._lngLat.lng,
-    lat: currentUnsavedMarker.value._lngLat.lat,
+    lng: currentUnsavedMarker.value.lng,
+    lat: currentUnsavedMarker.value.lat,
     type: inputs.type,
     color: "#4C763B",
     name: inputs.name,
   };
-  loading.value = true;
   try {
+    loading.value = true;
     await useSaveNewMarker(body);
-    emit("addMarkerToMap", body);
-    inputs.value = defaultInputs;
+    resetInputs();
     loading.value = false;
   } catch (err) {
     console.log(err);
     loading.value = false;
   }
+};
+
+const resetInputs = () => {
+  inputs.name = "";
+  inputs.id = "";
+  inputs.type = "tree";
 };
 </script>

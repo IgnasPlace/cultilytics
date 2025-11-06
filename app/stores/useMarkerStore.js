@@ -1,30 +1,45 @@
 import { defineStore } from "pinia";
 
 export const useMarkerStore = defineStore("marker", () => {
-  const allMarkers = ref({});
+  const savedMarkers = ref([]);
 
-  const currentSavedMarker = ref(null);
   const currentUnsavedMarker = ref(null);
+  const currentSelectedMarker = ref(null);
+
+  const allMarkers = computed(() => {
+    if (currentUnsavedMarker.value) {
+      const ma = savedMarkers.value.concat([currentUnsavedMarker.value]);
+      return ma;
+    } else {
+      return savedMarkers.value;
+    }
+  });
 
   const addMarkerMode = ref("off");
+  const currentPopup = ref(null);
+  const showInfoWidget = ref(false);
 
-  function addMarker(marker, markerData) {
-    allMarkers.value[markerData.id] = {
-      maplibreInstance: marker,
-      ...markerData,
-    };
+  function addMarker(markerData) {
+    savedMarkers.value.push(markerData);
+  }
+  function setSavedMarkers(markerData) {
+    savedMarkers.value = markerData;
+  }
+  function setCurrentSelectedMarker(v) {
+    currentSelectedMarker.value = v;
   }
 
   function updateMarker(id, newData) {
-    console.log(id);
+    // todo
+    // update marker
   }
 
   function deleteMarker(id) {
-    delete allMarkers.value[id];
-  }
-
-  function setCurrentMarker(marker) {
-    currentSavedMarker.value = marker;
+    const index = savedMarkers.value.findIndex((obj) => obj.id === id);
+    if (index !== -1) {
+      savedMarkers.value.splice(index, 1);
+    }
+    return savedMarkers.value;
   }
 
   function setCurrentUnsavedMarker(marker) {
@@ -32,20 +47,27 @@ export const useMarkerStore = defineStore("marker", () => {
   }
 
   function setActivateAddMarkerMode(v) {
-    console.log(v);
     addMarkerMode.value = v;
+  }
+  function closeInfoWidget() {
+    showInfoWidget.value = false;
   }
 
   return {
+    savedMarkers,
     allMarkers,
-    currentSavedMarker,
+    currentSelectedMarker,
     currentUnsavedMarker,
     addMarkerMode,
+    currentPopup,
+    showInfoWidget,
     addMarker,
+    setSavedMarkers,
     updateMarker,
     deleteMarker,
-    setCurrentMarker,
     setActivateAddMarkerMode,
     setCurrentUnsavedMarker,
+    setCurrentSelectedMarker,
+    closeInfoWidget,
   };
 });

@@ -1,30 +1,26 @@
-export default async function (body) {
+export default async function (id) {
   const res = await $fetch("/api/marker", {
-    method: "POST",
-    body,
+    method: "DELETE",
+    body: { id },
     onResponse({ response }) {
       const toast = useToast();
       if (!response.ok) {
-        console.log(response._data.message);
-        let msg = response._data.message;
-        if (response._data.message === "UNIQUE constraint failed: marker.id") {
-          msg = "ID must be unique.";
-        }
+        console.error(response._data.message);
+
         toast.error({
           title: "Error",
-          message: msg,
+          message: response._data.message,
           position: "topCenter",
         });
 
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
         const markerStore = useStore("markers");
-        markerStore.setCurrentUnsavedMarker(null);
-        markerStore.addMarker(body);
-        markerStore.setActivateAddMarkerMode("off");
+        markerStore.deleteMarker(id);
+        markerStore.setCurrentSelectedMarker(null);
+        markerStore.closeInfoWidget;
         toast.success({
-          title: "Success!",
-          message: "Marker saved successfully.",
+          title: "Marker Deleted.",
           position: "topCenter",
         });
       }
