@@ -1,7 +1,9 @@
 <template>
-  <ClientOnly>
-    <Map />
-  </ClientOnly>
+  <div>
+    <ClientOnly>
+      <Map />
+    </ClientOnly>
+  </div>
 </template>
 
 <script setup></script>

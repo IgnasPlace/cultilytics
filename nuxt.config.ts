@@ -7,6 +7,7 @@ export default defineNuxtConfig({
         lang: "en",
       },
     },
+    pageTransition: { name: "page", mode: "out-in" },
   },
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
@@ -61,6 +62,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       maptiler_satellite_url: process.env.NUXT_MAPTILER_SATELLITE_URL,
+      map_lng: process.env.NUXT_MAP_LNG,
+      map_lat: process.env.NUXT_MAP_LAT,
     },
     session: {
       password: "",

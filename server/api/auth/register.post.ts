@@ -8,35 +8,38 @@ const registerSchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
-  const { email, name, password } = await readValidatedBody(
-    event,
-    registerSchema.parse
-  );
+  try {
+    const { email, name, password } = await readValidatedBody(
+      event,
+      registerSchema.parse
+    );
 
-  const hashedPassword = await hashPassword(password);
+    const hashedPassword = await hashPassword(password);
 
-  const [user] = await db
-    .insert(tables.user)
-    .values({
-      email: email,
-      name: name,
-      passwordHash: hashedPassword,
-      role: "user",
-    })
-    .returning();
+    const [user] = await db
+      .insert(tables.user)
+      .values({
+        name: name,
+        role: "user",
+        email: email,
+        passwordHash: hashedPassword,
+      })
+      .returning();
 
-  await setUserSession(event, {
-    user: {
-      id: user.id,
-      name: user.name,
-    },
-    lastLoggedIn: new Date(),
-  });
+    await setUserSession(event, {
+      user: {
+        id: user.id,
+        name: user.name,
+      },
+      lastLoggedIn: new Date(),
+    });
 
-  return { success: true };
-
-  // throw createError({
-  //   statusCode: 401,
-  //   message: "Bad credentials",
-  // });
+    return { success: true };
+  } catch (err) {
+    console.error(err);
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Failed to register new user.",
+    });
+  }
 });

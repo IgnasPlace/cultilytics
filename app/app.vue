@@ -17,11 +17,28 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
-.auth-img {
-  background-image: url("/img/bence-balla-schottner-fdSJH2f7E8I-unsplash-_1_.webp");
+.login-bg {
+  background-image: url("/img/bence-balla-schottner-fdSJH2f7E8I-unsplash.webp");
+  background-position: center;
+  background-size: cover;
+}
+.register-bg {
+  background-image: url("/img/aaron-burden-puQ8iqUvs9o-unsplash.webp");
+  background-position: center;
+  background-size: cover;
 }
 
 .login-input {
-  @apply w-full p-2 border rounded-md
+  @apply w-full p-2 border rounded-md text-gray-700;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.2s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0.5;
+  filter: blur(0.5rem);
 }
 </style>

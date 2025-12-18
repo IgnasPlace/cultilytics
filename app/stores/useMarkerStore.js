@@ -34,6 +34,13 @@ export const useMarkerStore = defineStore("marker", () => {
     // update marker
   }
 
+  function addMarkerImages(id, data) {
+    const marker = savedMarkers.value.find((m) => m.id === id);
+    data.forEach((img) => {
+      marker.markerImage.push(img);
+    });
+  }
+
   function deleteMarker(id) {
     const index = savedMarkers.value.findIndex((obj) => obj.id === id);
     if (index !== -1) {
@@ -69,5 +76,6 @@ export const useMarkerStore = defineStore("marker", () => {
     setCurrentUnsavedMarker,
     setCurrentSelectedMarker,
     closeInfoWidget,
+    addMarkerImages,
   };
 });

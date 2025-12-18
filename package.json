@@ -4,18 +4,19 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "migrations:generate": "drizzle-kit generate",
-    "migrations:migrate": "drizzle-kit migrate"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@indoorequal/vue-maplibre-gl": "^8.4.2",
     "@libsql/client": "^0.15.15",
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@pinia/nuxt": "^0.11.2",
+    "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.7",
     "maplibre-gl": "^5.10.0",
     "nuxt": "^4.1.3",
