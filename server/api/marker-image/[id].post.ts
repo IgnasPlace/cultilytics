@@ -2,6 +2,8 @@ import { H3Error } from "h3";
 import { tables } from "~~/server/utils/database";
 
 export default defineEventHandler(async (event) => {
+  const user = await requireAuth(event);
+
   const id = getRouterParam(event, "id");
   if (!id) {
     throw createError({
@@ -11,20 +13,12 @@ export default defineEventHandler(async (event) => {
   }
 
   const { files } = await readBody(event);
-  const { user } = await requireUserSession(event);
-
-  if (!user) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized. Please log in to upload marker image.",
-    });
-  }
 
   const marker = await db.query.marker.findFirst({
     where: eq(tables.marker.id, id),
   });
 
-  if (marker && user) {
+  if (marker) {
     try {
       for (const file of files) {
         if (file.size > 5 * 1024 * 1024) {

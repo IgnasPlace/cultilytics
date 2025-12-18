@@ -14,19 +14,12 @@ const addMarkerSchema = z.object({
 
 export default defineEventHandler(async (event) => {
   try {
+    await requireAuth(event);
+
     const { id, name, color, type, lng, lat } = await readValidatedBody(
       event,
       addMarkerSchema.parse
     );
-
-    const { user } = await requireUserSession(event);
-
-    if (!user) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: "Unauthorized. Please log in to create a marker.",
-      });
-    }
 
     const result = await db
       .insert(tables.marker)
@@ -39,8 +32,6 @@ export default defineEventHandler(async (event) => {
         lat: lat,
       })
       .returning();
-
-    console.log(result);
 
     return { success: true, result };
   } catch (error) {
