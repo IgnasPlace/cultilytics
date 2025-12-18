@@ -3,15 +3,9 @@ import { tables } from "~~/server/utils/database";
 
 export default defineEventHandler(async (event) => {
   try {
-    const userData = await readBody(event);
-    const { user } = await requireUserSession(event);
+    await requireAuth(event);
 
-    if (!user) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: "Unauthorized. Please log in to delete the marker.",
-      });
-    }
+    const userData = await readBody(event);
 
     await db.delete(tables.marker).where(eq(tables.marker.id, userData.id));
 

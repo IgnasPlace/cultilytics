@@ -49,7 +49,7 @@
         </button>
       </div>
       <div
-        v-if="data.markerImage.length > 0"
+        v-if="data.markerImage && data.markerImage.length > 0"
         class="max-h-[250px] overflow-scroll"
       >
         <div
