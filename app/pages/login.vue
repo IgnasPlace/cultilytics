@@ -1,6 +1,6 @@
 <template>
   <div
-    class="auth-img min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+    class="login-bg min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
   >
     <div class="max-w-md w-full space-y-8 bg-white rounded-xl shadow-lg p-8">
       <div class="space-y-4">
@@ -53,6 +53,8 @@ definePageMeta({
   middleware: ["auth"],
 });
 
+const toast = useToast();
+
 const { loggedIn, user, fetch: refreshSession } = useUserSession();
 
 const state = reactive({
@@ -62,16 +64,23 @@ const state = reactive({
 
 async function login() {
   try {
-    await $fetch("/api/auth/login", {
+    const response = await $fetch("/api/auth/login", {
       method: "POST",
       body: state,
     });
 
-    // Refresh the session on client-side and redirect to the home page
+    if (!response.success) {
+      throw new Error("Login error");
+    }
+
     await refreshSession();
     await navigateTo("/");
-  } catch {
-    alert("Bad credentials");
+  } catch (err) {
+    toast.error({
+      title: "Error",
+      message: "Login error",
+      position: "topCenter",
+    });
   }
 }
 </script>

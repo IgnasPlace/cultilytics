@@ -48,19 +48,60 @@
           Edit
         </button>
       </div>
+      <div
+        v-if="data.markerImage.length > 0"
+        class="max-h-[250px] overflow-scroll"
+      >
+        <div
+          v-for="image in data.markerImage"
+          :key="image.id"
+          class="max-w-[180px] relative"
+        >
+          <img
+            :src="`/uploads/${image.photoPath}`"
+            :alt="image.desc"
+            class="w-full"
+          />
+          <p class="absolute bottom-1 left-1 bg-white rounded-sm px-1">
+            {{
+              new Date(image.createdAt).getMonth() +
+              "-" +
+              new Date(image.createdAt).getFullYear()
+            }}
+          </p>
+        </div>
+      </div>
       <div class="flex flex-col gap-2 px-4 py-2">
         <label
+          v-if="files.length < 1"
           for="add-photo-input"
           class="bg-blue-500 text-white text-center py-1 rounded-md cursor-pointer"
           >Add photo</label
         >
+        <div v-else>
+          <p>Files selected:</p>
+          <ul>
+            <li
+              v-for="file in files"
+              class="max-w-[180px] text-gray-500 list-disc list-inside"
+            >
+              {{ file.name }}
+            </li>
+          </ul>
+        </div>
         <input
           type="file"
           id="add-photo-input"
           hidden
           @input="handleFileInput"
         />
-        <button @click="handleImageUpload">Submit</button>
+        <button
+          v-if="files.length > 0"
+          @click="handleImageUpload"
+          class="px-4 py-1 bg-[#4C763B] text-white rounded-md hover:bg-[#598b45] transition-colors"
+        >
+          Submit
+        </button>
       </div>
     </div>
   </div>
@@ -72,7 +113,7 @@ const props = defineProps(["data"]);
 const markerStore = useStore("markers");
 const { showInfoWidget, currentSelectedMarker } = storeToRefs(markerStore);
 
-const { handleFileInput, files } = useFileStorage();
+const { handleFileInput, files, clearFiles } = useFileStorage();
 
 const closeWidget = () => {
   showInfoWidget.value = false;
@@ -83,13 +124,29 @@ const deleteMarker = () => {
 };
 
 const handleImageUpload = async (e) => {
-  // let formData = new FormData();
-  // formData.append("file", e.target.files[0]);
-
-  const response = $fetch(`/api/marker-image/${props.data.id}`, {
+  $fetch(`/api/marker-image/${props.data.id}`, {
     method: "POST",
     body: {
       files: files.value,
+    },
+    onResponse: ({ response }) => {
+      const toast = useToast();
+      if (response._data.success) {
+        toast.success({
+          title: "Done!",
+          message: "Image saved",
+          position: "topCenter",
+        });
+        clearFiles();
+        markerStore.addMarkerImages(props.data.id, response._data.result);
+      } else {
+        console.log(response);
+        toast.error({
+          title: "Error",
+          message: response._data.message,
+          position: "topCenter",
+        });
+      }
     },
   });
 };

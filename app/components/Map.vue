@@ -59,7 +59,7 @@ const {
 } = storeToRefs(markerStore);
 
 const style = config.public.maptiler_satellite_url;
-const center = [-0.654144056839913, 39.6823177364732];
+const center = [config.public.map_lng, config.public.map_lat];
 const zoom = 17;
 
 const markerInstances = useTemplateRef("markers");
@@ -80,8 +80,8 @@ onMounted(async () => {
         lat: e.lngLat.lat,
         id: "",
         name: "",
-        name_latin: "",
-        type: "tree",
+        nameLatin: "",
+        type: "Tree",
         color: "#B95E82",
         draggable: true,
       });

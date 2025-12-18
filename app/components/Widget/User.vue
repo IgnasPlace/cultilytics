@@ -21,7 +21,7 @@ async function logout() {
       </button>
     </div>
     <div v-else>
-      <NuxtLink to="/login" >Login</NuxtLink>
+      <NuxtLink to="/login">Login</NuxtLink>
     </div>
   </div>
 </template>
