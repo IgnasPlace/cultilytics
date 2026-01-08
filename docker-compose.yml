@@ -12,6 +12,7 @@ services:
     env_file:
       - .env
   cultilytics:
+    container_name: cultilytics
     build:
       context: .
       dockerfile: Dockerfile.prod
