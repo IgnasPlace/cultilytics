@@ -21,6 +21,6 @@ jobs:
           script: |
             cd ~/apps/cultilytics
             git pull origin main
-            docker compose down
-            docker compose build
-            docker compose up -d
+            docker-compose down
+            docker-compose build
+            docker-compose up client-prod
