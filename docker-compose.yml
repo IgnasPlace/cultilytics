@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  cultilytics-dev:
+  client-dev:
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -11,8 +11,7 @@ services:
       - /app/node_modules
     env_file:
       - .env
-  cultilytics:
-    container_name: cultilytics
+  client-prod:
     build:
       context: .
       dockerfile: Dockerfile.prod
