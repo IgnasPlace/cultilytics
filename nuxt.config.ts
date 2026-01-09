@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     "nuxt-toast",
     "nuxt-file-storage",
     "nuxt-auth-utils",
+    "nuxt-security",
   ],
   plugins: ["~/plugins/maplibre.js"],
   ssr: false,
