@@ -43,6 +43,7 @@
 <script setup>
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useMap } from "@indoorequal/vue-maplibre-gl";
+import { duration } from "drizzle-orm/gel-core";
 
 const config = useRuntimeConfig();
 
@@ -60,7 +61,7 @@ const {
 
 const style = config.public.maptiler_satellite_url;
 const center = [config.public.map_lng, config.public.map_lat];
-const zoom = 17;
+const zoom = 16;
 
 const markerInstances = useTemplateRef("markers");
 const popupInstances = useTemplateRef("popups");
@@ -86,6 +87,10 @@ onMounted(async () => {
         draggable: true,
       });
     }
+  });
+
+  map.on("load", () => {
+    map.easeTo({ zoom: 17, duration: 1000, animate: true });
   });
 });
 
