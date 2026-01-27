@@ -1,7 +1,11 @@
 import { H3Error } from "h3";
 import { tables } from "~~/server/utils/database";
 
+// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export default defineEventHandler(async (event) => {
+  // await delay(1000);
+
   const user = await requireAuth(event);
 
   const id = getRouterParam(event, "id");

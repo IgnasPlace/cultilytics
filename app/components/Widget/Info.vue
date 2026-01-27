@@ -65,6 +65,7 @@
           <p class="absolute bottom-1 left-1 bg-white rounded-sm px-1">
             {{
               new Date(image.createdAt).getMonth() +
+              1 +
               "-" +
               new Date(image.createdAt).getFullYear()
             }}
@@ -98,9 +99,10 @@
         <button
           v-if="files.length > 0"
           @click="handleImageUpload"
-          class="px-4 py-1 bg-[#4C763B] text-white rounded-md hover:bg-[#598b45] transition-colors"
+          :disabled="uploading"
+          class="px-4 py-1 bg-[#4C763B] text-white rounded-md hover:bg-[#598b45] transition-colors disabled:bg-[#63745d] disabled:cursor-not-allowed"
         >
-          Submit
+          {{ uploading ? "Uploading" : "Upload" }}
         </button>
       </div>
     </div>
@@ -109,6 +111,8 @@
 
 <script setup>
 const props = defineProps(["data"]);
+
+const uploading = ref(false);
 
 const markerStore = useStore("markers");
 const { showInfoWidget, currentSelectedMarker } = storeToRefs(markerStore);
@@ -124,30 +128,40 @@ const deleteMarker = () => {
 };
 
 const handleImageUpload = async (e) => {
-  $fetch(`/api/marker-image/${props.data.id}`, {
-    method: "POST",
-    body: {
-      files: files.value,
-    },
-    onResponse: ({ response }) => {
-      const toast = useToast();
-      if (response._data.success) {
-        toast.success({
-          title: "Done!",
-          message: "Image saved",
-          position: "topCenter",
-        });
-        clearFiles();
-        markerStore.addMarkerImages(props.data.id, response._data.result);
-      } else {
+  const toast = useToast();
+
+  uploading.value = true;
+
+  try {
+    await $fetch(`/api/marker-image/${props.data.id}`, {
+      method: "POST",
+      body: {
+        files: files.value,
+      },
+      onResponse: ({ response }) => {
+        if (response._data.success) {
+          toast.success({
+            title: "Done!",
+            message: "Image saved",
+            position: "topCenter",
+          });
+          clearFiles();
+          markerStore.addMarkerImages(props.data.id, response._data.result);
+        }
+      },
+      onResponseError: ({ response }) => {
         console.log(response);
         toast.error({
           title: "Error",
           message: response._data.message,
           position: "topCenter",
         });
-      }
-    },
-  });
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    uploading.value = false;
+  }
 };
 </script>
