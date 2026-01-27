@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
       for (const file of files) {
         if (file.size > 5 * 1024 * 1024) {
           throw createError({
-            statusCode: 500,
+            statusCode: 413,
             statusMessage: "File is too large. Max 5MB",
           });
         }

@@ -11,7 +11,7 @@
       class=""
       @click="() => markerStore.setActivateAddMarkerMode('add')"
     >
-      Add marker
+      <span class="text-green-600">+</span> Add new <span v-if="isMac" class="text-gray-400 ml-2">⌘+A</span>
     </button>
     <div v-else-if="addMarkerMode === 'add'">
       <p class="mb-2">Please click on the map to add a marker</p>
@@ -84,6 +84,7 @@ const inputs = reactive({
   type: "tree",
 });
 
+const isMac = ref(false);
 onMounted(() => {
   function handleKeyDown(e) {
     if ((e.metaKey || e.ctrlKey) && e.key === "a") {
@@ -94,6 +95,12 @@ onMounted(() => {
     }
   }
   document.addEventListener("keydown", handleKeyDown);
+
+  const userAgent = window.navigator.userAgent;
+  const isMacLike = /Mac|Macintosh/.test(userAgent);
+  const isNotTouch = navigator.maxTouchPoints === 0;
+
+  isMac.value = isMacLike && isNotTouch;
 });
 
 const cancelHandler = () => {
