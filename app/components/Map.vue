@@ -43,7 +43,6 @@
 <script setup>
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useMap } from "@indoorequal/vue-maplibre-gl";
-import { duration } from "drizzle-orm/gel-core";
 
 const config = useRuntimeConfig();
 
