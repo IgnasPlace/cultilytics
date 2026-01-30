@@ -18,7 +18,7 @@ export default async function (id) {
         const markerStore = useStore("markers");
         markerStore.deleteMarker(id);
         markerStore.setCurrentSelectedMarker(null);
-        markerStore.closeInfoWidget;
+        markerStore.closeInfoWidget();
         toast.success({
           title: "Marker Deleted.",
           position: "topCenter",

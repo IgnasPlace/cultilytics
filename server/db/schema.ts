@@ -35,7 +35,9 @@ export const markerImage = sqliteTable("markerImage", (t) => ({
   markerId: t
     .text("markerId")
     .references(() => marker.id, { onDelete: "cascade" }),
-  photoPath: t.text().notNull(),
+  thumbnailPath: t.text("thumbnailPath").notNull(),
+  mediumPath: t.text("mediumPath").notNull(),
+  largePath: t.text("largePath").notNull(),
   desc: t.text(),
   createdAt: t.integer({ mode: "timestamp_ms" }).$defaultFn(() => new Date()),
 }));

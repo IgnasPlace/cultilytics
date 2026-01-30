@@ -58,7 +58,7 @@
           class="max-w-[180px] relative"
         >
           <img
-            :src="`/uploads/${image.photoPath}`"
+            :src="`/uploads/${image.thumbnailPath}`"
             :alt="image.desc"
             class="w-full"
           />
@@ -117,7 +117,14 @@ const uploading = ref(false);
 const markerStore = useStore("markers");
 const { showInfoWidget, currentSelectedMarker } = storeToRefs(markerStore);
 
-const { handleFileInput, files, clearFiles } = useFileStorage();
+const files = ref([]);
+const clearFiles = () => {
+  files.value = [];
+};
+
+const handleFileInput = (event) => {
+  files.value = Array.from(event.target.files);
+};
 
 const closeWidget = () => {
   showInfoWidget.value = false;
@@ -133,11 +140,14 @@ const handleImageUpload = async (e) => {
   uploading.value = true;
 
   try {
+    const formData = new FormData();
+    files.value.forEach((file) => {
+      formData.append('files', file);
+    });
+
     await $fetch(`/api/marker-image/${props.data.id}`, {
       method: "POST",
-      body: {
-        files: files.value,
-      },
+      body: formData,
       onResponse: ({ response }) => {
         if (response._data.success) {
           toast.success({

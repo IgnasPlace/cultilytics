@@ -15,7 +15,6 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
     "nuxt-toast",
-    "nuxt-file-storage",
     "nuxt-auth-utils",
     "nuxt-security",
   ],
@@ -25,21 +24,6 @@ export default defineNuxtConfig({
     experimental: {
       database: true,
     },
-    // database: {
-    //   myDB: {
-    //     connector: "sqlite",
-    //     options: { name: "db" },
-    //   },
-    // },
-    // storage: {
-    //   uploads: {
-    //     driver: "fs",
-    //     base: "./public/uploads",
-    //   },
-    // },
-  },
-  fileStorage: {
-    mount: "./public/uploads",
   },
   tailwindcss: {
     config: {
@@ -75,6 +59,13 @@ export default defineNuxtConfig({
     },
   },
   security: {
+    headers: {
+      contentSecurityPolicy: {
+        "img-src": ["'self'", "data:", "blob:"],
+        "object-src": ["'none'"],
+        "base-uri": ["'none'"],
+      },
+    },
     allowedMethodsRestricter: {
       methods: ["GET", "POST", "DELETE"],
     },

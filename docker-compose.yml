@@ -9,6 +9,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - cultilytics-uploads:/app/public/uploads
     env_file:
       - .env
   client-prod:
@@ -18,6 +19,10 @@ services:
     ports:
       - "4000:4000"
     volumes:
+      - cultilytics-uploads:/app/public/uploads
       - /app/.data
     env_file:
       - .env
+
+volumes:
+  cultilytics-uploads:
