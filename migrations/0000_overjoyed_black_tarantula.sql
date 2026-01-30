@@ -15,11 +15,13 @@ CREATE TABLE `markerImage` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`userId` integer,
 	`markerId` text,
-	`photoPath` text NOT NULL,
+	`thumbnailPath` text NOT NULL,
+	`mediumPath` text NOT NULL,
+	`largePath` text NOT NULL,
 	`desc` text,
 	`createdAt` integer,
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`markerId`) REFERENCES `marker`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`markerId`) REFERENCES `marker`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `user` (

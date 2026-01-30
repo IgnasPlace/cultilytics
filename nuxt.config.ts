@@ -15,7 +15,6 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
     "nuxt-toast",
-    "nuxt-file-storage",
     "nuxt-auth-utils",
     "nuxt-security",
   ],
@@ -25,9 +24,6 @@ export default defineNuxtConfig({
     experimental: {
       database: true,
     },
-  },
-  fileStorage: {
-    mount: "./public/uploads",
   },
   tailwindcss: {
     config: {
