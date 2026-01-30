@@ -72,39 +72,12 @@
           </p>
         </div>
       </div>
-      <div class="flex flex-col gap-2 px-4 py-2">
-        <label
-          v-if="files.length < 1"
-          for="add-photo-input"
-          class="bg-blue-500 text-white text-center py-1 rounded-md cursor-pointer"
-          >Add photo</label
-        >
-        <div v-else>
-          <p>Files selected:</p>
-          <ul>
-            <li
-              v-for="file in files"
-              class="max-w-[180px] text-gray-500 list-disc list-inside"
-            >
-              {{ file.name }}
-            </li>
-          </ul>
-        </div>
-        <input
-          type="file"
-          id="add-photo-input"
-          hidden
-          @input="handleFileInput"
-        />
-        <button
-          v-if="files.length > 0"
-          @click="handleImageUpload"
-          :disabled="uploading"
-          class="px-4 py-1 bg-[#4C763B] text-white rounded-md hover:bg-[#598b45] transition-colors disabled:bg-[#63745d] disabled:cursor-not-allowed"
-        >
-          {{ uploading ? "Uploading" : "Upload" }}
-        </button>
-      </div>
+      <WidgetImageUploader
+        :marker-id="data.id"
+        @upload-success="handleUploadSuccess"
+        @upload-error="handleUploadError"
+        class="px-4 py-4"
+      />
     </div>
   </div>
 </template>
@@ -112,66 +85,23 @@
 <script setup>
 const props = defineProps(["data"]);
 
-const uploading = ref(false);
-
 const markerStore = useStore("markers");
 const { showInfoWidget, currentSelectedMarker } = storeToRefs(markerStore);
-
-const files = ref([]);
-const clearFiles = () => {
-  files.value = [];
-};
-
-const handleFileInput = (event) => {
-  files.value = Array.from(event.target.files);
-};
 
 const closeWidget = () => {
   showInfoWidget.value = false;
   currentSelectedMarker.value = null;
 };
+
 const deleteMarker = () => {
   useDeleteMarker(props.data.id);
 };
 
-const handleImageUpload = async (e) => {
-  const toast = useToast();
+const handleUploadSuccess = (result) => {
+  console.log("Upload successful:", result);
+};
 
-  uploading.value = true;
-
-  try {
-    const formData = new FormData();
-    files.value.forEach((file) => {
-      formData.append('files', file);
-    });
-
-    await $fetch(`/api/marker-image/${props.data.id}`, {
-      method: "POST",
-      body: formData,
-      onResponse: ({ response }) => {
-        if (response._data.success) {
-          toast.success({
-            title: "Done!",
-            message: "Image saved",
-            position: "topCenter",
-          });
-          clearFiles();
-          markerStore.addMarkerImages(props.data.id, response._data.result);
-        }
-      },
-      onResponseError: ({ response }) => {
-        console.log(response);
-        toast.error({
-          title: "Error",
-          message: response._data.message,
-          position: "topCenter",
-        });
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  } finally {
-    uploading.value = false;
-  }
+const handleUploadError = (error) => {
+  console.error("Upload error:", error);
 };
 </script>
