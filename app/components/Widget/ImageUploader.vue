@@ -60,7 +60,7 @@
         </div>
 
         <!-- Upload Button -->
-        <div class="flex justify-end mt-4">
+        <div ref="uploadButtonContainer" class="flex justify-end mt-4">
           <button
             @click="handleUpload"
             :disabled="uploading || files.length === 0"
@@ -80,7 +80,11 @@
 </template>
 
 <script setup>
+import { ref, nextTick } from "vue";
+
 const emit = defineEmits(["upload-success", "upload-error"]);
+
+const uploadButtonContainer = ref(null);
 
 const props = defineProps({
   markerId: {
@@ -108,7 +112,7 @@ const uploadStatus = ref({}); // file.name -> 'pending'|'uploading'|'success'|'e
 const uploadProgress = ref({}); // file.name -> number (0-100)
 const fileErrors = ref({}); // file.name -> error message
 
-const handleFilesSelected = (selectedFiles) => {
+const handleFilesSelected = async (selectedFiles) => {
   // Replace existing files (not append) to maintain maxFiles limit
   files.value = selectedFiles;
   errorMessage.value = "";
@@ -118,6 +122,14 @@ const handleFilesSelected = (selectedFiles) => {
     uploadStatus.value[file.name] = "pending";
     uploadProgress.value[file.name] = 0;
     fileErrors.value[file.name] = "";
+  });
+
+  // Scroll to upload button after DOM updates (for mobile UX)
+  await nextTick();
+  uploadButtonContainer.value?.scrollIntoView({
+    behavior: "smooth",
+    block: "end",
+    inline: "nearest",
   });
 };
 
