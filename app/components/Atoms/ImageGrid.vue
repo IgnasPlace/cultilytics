@@ -115,7 +115,6 @@ const props = defineProps({
 
 const emit = defineEmits(["image-click"]);
 
-// Computed properties
 const visibleImages = computed(() => props.images.slice(0, props.maxVisible));
 
 const remainingCount = computed(() =>
@@ -126,19 +125,16 @@ const showRemainingOverlay = (index) => {
   return index === props.maxVisible - 1 && remainingCount.value > 0;
 };
 
-// Methods
 const handleImageClick = (index) => {
   emit("image-click", index);
 };
 
 const handleViewAllClick = () => {
-  // Open carousel from the first image
   emit("image-click", 0);
 };
 
 const handleImageError = (event) => {
   console.error("Failed to load thumbnail:", event.target.src);
-  // Could set a fallback image here
 };
 
 const formatDate = (timestamp) => {

@@ -41,6 +41,25 @@ export const useMarkerStore = defineStore("marker", () => {
     });
   }
 
+  function deleteMarkerImage(markerId, imageId) {
+    const marker = savedMarkers.value.find((m) => m.id === markerId);
+    if (marker && marker.markerImage) {
+      const imageIndex = marker.markerImage.findIndex((img) => img.id === imageId);
+      if (imageIndex !== -1) {
+        marker.markerImage.splice(imageIndex, 1);
+      }
+    }
+
+    if (currentSelectedMarker.value && currentSelectedMarker.value.id === markerId) {
+      const imageIndex = currentSelectedMarker.value.markerImage?.findIndex(
+        (img) => img.id === imageId
+      );
+      if (imageIndex !== -1) {
+        currentSelectedMarker.value.markerImage.splice(imageIndex, 1);
+      }
+    }
+  }
+
   function deleteMarker(id) {
     const index = savedMarkers.value.findIndex((obj) => obj.id === id);
     if (index !== -1) {
@@ -77,5 +96,6 @@ export const useMarkerStore = defineStore("marker", () => {
     setCurrentSelectedMarker,
     closeInfoWidget,
     addMarkerImages,
+    deleteMarkerImage,
   };
 });
