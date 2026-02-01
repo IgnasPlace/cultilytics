@@ -152,8 +152,8 @@ const currentImageUrl = computed(() => {
 
   // Use medium path for carousel, large path for zoom
   return isZoomed.value
-    ? `/uploads/${image.largePath}`
-    : `/uploads/${image.mediumPath}`;
+    ? `/api/uploads/${image.largePath}`
+    : `/api/uploads/${image.mediumPath}`;
 });
 
 // Methods

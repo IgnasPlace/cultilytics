@@ -10,7 +10,7 @@
           class="relative group cursor-pointer overflow-hidden rounded-md bg-gray-100 hover:shadow-md transition-all duration-200 flex-shrink-0 w-20 h-20 snap-start"
         >
           <img
-            :src="`/uploads/${image.thumbnailPath}`"
+            :src="`/api/uploads/${image.thumbnailPath}`"
             :alt="image.desc"
             class="w-full h-full object-cover"
             @error="handleImageError"
@@ -49,7 +49,7 @@
           class="relative group cursor-pointer overflow-hidden rounded-md aspect-square bg-gray-100 hover:shadow-md transition-all duration-200"
         >
           <img
-            :src="`/uploads/${image.thumbnailPath}`"
+            :src="`/api/uploads/${image.thumbnailPath}`"
             :alt="image.desc"
             class="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
             @error="handleImageError"
