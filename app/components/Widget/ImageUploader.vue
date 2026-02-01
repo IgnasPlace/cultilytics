@@ -1,67 +1,81 @@
 <template>
   <div class="flex flex-col gap-4">
-    <!-- Dropzone -->
-    <AtomsImageDropzone
-      :max-files="maxFiles"
-      :disabled="uploading"
-      @files-selected="handleFilesSelected"
-      @error="handleDropzoneError"
-    />
-
-    <!-- Error Message -->
-    <div
-      v-if="errorMessage"
-      class="bg-red-50 border border-red-200 rounded-md p-3"
-    >
-      <p class="text-sm text-red-600">{{ errorMessage }}</p>
+    <!-- Not Logged In Message -->
+    <div v-if="!loggedIn" class="p-3 bg-gray-50 rounded-md text-center">
+      <p class="text-gray-500 text-sm">Please log in to upload images</p>
+      <NuxtLink
+        to="/login"
+        class="text-[#4C763B] text-sm hover:underline mt-1 inline-block"
+      >
+        Log in
+      </NuxtLink>
     </div>
 
-    <!-- Selected Files -->
-    <div v-if="files.length > 0">
-      <div class="flex justify-between items-center mb-3">
-        <h4 class="text-sm font-medium text-gray-700">
-          Selected Images ({{ files.length }}/{{ maxFiles }})
-        </h4>
-        <button
-          v-if="!uploading"
-          @click="clearAllFiles"
-          class="text-xs text-red-600 hover:text-red-800 transition-colors"
-        >
-          Clear All
-        </button>
+    <!-- Uploader Content (Only when logged in) -->
+    <template v-else>
+      <!-- Dropzone -->
+      <AtomsImageDropzone
+        :max-files="maxFiles"
+        :disabled="uploading"
+        @files-selected="handleFilesSelected"
+        @error="handleDropzoneError"
+      />
+
+      <!-- Error Message -->
+      <div
+        v-if="errorMessage"
+        class="bg-red-50 border border-red-200 rounded-md p-3"
+      >
+        <p class="text-sm text-red-600">{{ errorMessage }}</p>
       </div>
 
-      <!-- Files Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        <AtomsImagePreview
-          v-for="(file, index) in files"
-          :key="file.name + index"
-          :file="file"
-          :disabled="uploading"
-          :upload-status="getUploadStatus(file)"
-          :upload-progress="getUploadProgress(file)"
-          :error-message="getFileError(file)"
-          @remove="handleRemoveFile"
-          @retry="handleRetryUpload"
-        />
-      </div>
+      <!-- Selected Files -->
+      <div v-if="files.length > 0">
+        <div class="flex justify-between items-center mb-3">
+          <h4 class="text-sm font-medium text-gray-700">
+            Selected Images ({{ files.length }}/{{ maxFiles }})
+          </h4>
+          <button
+            v-if="!uploading"
+            @click="clearAllFiles"
+            class="text-xs text-red-600 hover:text-red-800 transition-colors"
+          >
+            Clear All
+          </button>
+        </div>
 
-      <!-- Upload Button -->
-      <div class="flex justify-end mt-4">
-        <button
-          @click="handleUpload"
-          :disabled="uploading || files.length === 0"
-          class="px-6 py-2 bg-[#4C763B] text-white rounded-md hover:bg-[#598b45] transition-colors disabled:bg-[#63745d] disabled:cursor-not-allowed flex items-center gap-2"
-        >
-          <AtomsSpinner v-if="uploading" class="w-4 h-4" />
-          {{
-            uploading
-              ? "Uploading..."
-              : `Upload ${files.length} Image${files.length > 1 ? "s" : ""}`
-          }}
-        </button>
+        <!-- Files Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <AtomsImagePreview
+            v-for="(file, index) in files"
+            :key="file.name + index"
+            :file="file"
+            :disabled="uploading"
+            :upload-status="getUploadStatus(file)"
+            :upload-progress="getUploadProgress(file)"
+            :error-message="getFileError(file)"
+            @remove="handleRemoveFile"
+            @retry="handleRetryUpload"
+          />
+        </div>
+
+        <!-- Upload Button -->
+        <div class="flex justify-end mt-4">
+          <button
+            @click="handleUpload"
+            :disabled="uploading || files.length === 0"
+            class="px-6 py-2 bg-[#4C763B] text-white rounded-md hover:bg-[#598b45] transition-colors disabled:bg-[#63745d] disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            <AtomsSpinner v-if="uploading" class="w-4 h-4" />
+            {{
+              uploading
+                ? "Uploading..."
+                : `Upload ${files.length} Image${files.length > 1 ? "s" : ""}`
+            }}
+          </button>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -82,9 +96,15 @@ const props = defineProps({
 const toast = useToast();
 const markerStore = useStore("markers");
 
+// Authentication check
+const userStore = useStore("user");
+const { loggedIn } = useUserSession();
+
 const files = ref([]);
 const uploading = ref(false);
 const errorMessage = ref("");
+
+console.log(userStore);
 
 // Track upload progress and status per file
 const uploadStatus = ref({}); // file.name -> 'pending'|'uploading'|'success'|'error'

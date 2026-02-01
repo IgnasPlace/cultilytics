@@ -1,5 +1,78 @@
 <template>
-  <div class="max-w-xs sm:max-w-md mx-auto absolute top-3 left-3 bg-white rounded-md">
+  <!-- Mobile Bottom Sheet -->
+  <div
+    class="sm:hidden fixed bottom-0 left-0 right-0 z-30 max-h-[80vh] bg-white rounded-t-xl shadow-2xl overflow-y-auto"
+  >
+    <div class="px-4 pt-4 pb-6">
+      <!-- Header -->
+      <div class="flex justify-between items-center border-b border-gray-200 pb-2 mb-3">
+        <h3 class="text-lg font-bold text-gray-800">{{ data.id }}</h3>
+        <button
+          @click="closeWidget"
+          class="text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none"
+        >
+          ×
+        </button>
+      </div>
+
+      <!-- Info Fields -->
+      <div class="space-y-2 mb-3">
+        <div class="flex justify-between items-center">
+          <label class="text-gray-600 text-sm">Name:</label>
+          <p class="text-gray-800 text-sm">{{ data.name }}</p>
+        </div>
+        <div class="flex justify-between items-center">
+          <label class="text-gray-600 text-sm">Latin Name:</label>
+          <p class="text-gray-800 text-sm">Almendrus</p>
+        </div>
+        <div class="flex justify-between items-center">
+          <label class="text-gray-600 text-sm">Type:</label>
+          <p class="text-gray-800 text-sm">{{ data.type }}</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-between gap-4 py-3 border-y border-gray-200 mb-3">
+        <button
+          @click="deleteMarker"
+          class="px-4 py-1.5 text-red-600 hover:text-red-800 transition-colors text-sm"
+        >
+          Delete
+        </button>
+        <button
+          class="px-4 py-1.5 bg-[#4C763B] text-white rounded-md hover:bg-[#598b45] transition-colors text-sm"
+        >
+          Edit
+        </button>
+      </div>
+
+      <!-- Image Grid (Horizontal Scroll) -->
+      <AtomsImageGrid
+        :images="data.markerImage"
+        :max-visible="6"
+        @image-click="openImageCarousel"
+      />
+
+      <!-- Image Carousel Modal -->
+      <AtomsImageCarousel
+        v-if="isCarouselOpen"
+        :images="data.markerImage"
+        :start-index="currentImageIndex"
+        @close="closeImageCarousel"
+      />
+
+      <!-- Image Uploader -->
+      <WidgetImageUploader
+        :marker-id="data.id"
+        @upload-success="handleUploadSuccess"
+        @upload-error="handleUploadError"
+        class="mt-4"
+      />
+    </div>
+  </div>
+
+  <!-- Desktop Layout -->
+  <div class="hidden sm:block max-w-xs mx-auto absolute top-3 left-3 bg-white rounded-md z-20">
     <div class="card">
       <div
         class="flex justify-between items-center border-b border-gray-200 px-4 py-2"
@@ -62,6 +135,7 @@
         :start-index="currentImageIndex"
         @close="closeImageCarousel"
       />
+      <!-- Image Uploader -->
       <WidgetImageUploader
         :marker-id="data.id"
         @upload-success="handleUploadSuccess"
