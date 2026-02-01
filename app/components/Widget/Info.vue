@@ -1,22 +1,23 @@
 <template>
   <!-- Mobile Bottom Sheet -->
   <div
-    class="sm:hidden fixed bottom-0 left-0 right-0 z-30 max-h-[80vh] bg-white rounded-t-xl shadow-2xl overflow-y-auto"
+    class="sm:hidden fixed bottom-0 left-0 right-0 z-30 max-h-[80vh] bg-white rounded-t-xl shadow-2xl flex flex-col"
   >
-    <div class="px-4 pt-4 pb-6">
-      <!-- Header -->
-      <div class="flex justify-between items-center border-b border-gray-200 pb-2 mb-3">
-        <h3 class="text-lg font-bold text-gray-800">{{ data.id }}</h3>
-        <button
-          @click="closeWidget"
-          class="text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none"
-        >
-          ×
-        </button>
-      </div>
+    <!-- Header - Always visible -->
+    <div class="flex justify-between items-center border-b border-gray-200 px-4 pt-4 pb-2 shrink-0">
+      <h3 class="text-lg font-bold text-gray-800">{{ data.id }}</h3>
+      <button
+        @click="closeWidget"
+        class="text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none"
+      >
+        ×
+      </button>
+    </div>
 
+    <!-- Scrollable Content -->
+    <div class="overflow-y-auto flex-1 px-4 pb-6">
       <!-- Info Fields -->
-      <div class="space-y-2 mb-3">
+      <div class="space-y-2 mb-3 pt-3">
         <div class="flex justify-between items-center">
           <label class="text-gray-600 text-sm">Name:</label>
           <p class="text-gray-800 text-sm">{{ data.name }}</p>
