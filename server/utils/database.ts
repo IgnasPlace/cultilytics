@@ -13,4 +13,4 @@ export const db: ReturnType<typeof drizzle<typeof schema>> = drizzle({
 });
 export const tables = schema;
 
-export { and, eq, or } from "drizzle-orm";
+export { and, eq, or, desc, asc, isNull, isNotNull, sql } from "drizzle-orm";

@@ -1,8 +1,8 @@
 <template>
-  <div v-if="images.length > 0" class="py-3 border-t border-gray-200 sm:px-4">
+  <div v-if="images.length > 0" class="py-3 border-t border-gray-200 px-4">
     <!-- Mobile: Horizontal Scroll -->
     <div class="sm:hidden">
-      <div class="flex overflow-x-auto gap-2 pb-2 scrollbar-hide snap-x snap-mandatory">
+      <div class="flex overflow-x-auto gap-2 sm:pb-2 scrollbar-hide snap-x snap-mandatory">
         <div
           v-for="(image, index) in visibleImages"
           :key="image.id"

@@ -14,7 +14,7 @@
     >
       <!-- Overlay -->
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-      
+
       <!-- Modal Content -->
       <Transition
         enter-active-class="transition-all duration-300"
@@ -26,22 +26,25 @@
       >
         <div
           v-if="isOpen"
-          class="relative bg-white rounded-lg shadow-2xl max-w-[95vw] max-h-[95vh] sm:max-w-[90vw] sm:max-h-[90vh] md:max-w-[80vw] md:max-h-[85vh] lg:max-w-[80vw] lg:max-h-[85vh] overflow-hidden"
+          class="relative bg-white rounded-lg shadow-2xl max-w-[95vw] max-h-[95vh] sm:max-w-[90vw] sm:max-h-[90vh] md:max-w-[80vw] md:max-h-[85vh] lg:max-w-[80vw] lg:max-h-[85vh] overflow-hidden flex flex-col"
           @click.stop
         >
-          <!-- Close Button -->
-          <button
-            @click="close"
-            class="absolute top-2 right-2 z-10 w-8 h-8 sm:top-3 sm:right-3 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors shadow-md"
-            aria-label="Close modal"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-          
+          <!-- Header with Title and Close Button -->
+          <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-gray-50">
+            <h2 class="text-lg font-semibold text-gray-900">{{ title }}</h2>
+            <button
+              @click="close"
+              class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-full transition-colors"
+              aria-label="Close modal"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
           <!-- Modal Content Slot -->
-          <div class="w-full h-full">
+          <div class="flex-1 overflow-y-auto">
             <slot />
           </div>
         </div>
@@ -55,6 +58,10 @@ const props = defineProps({
   isOpen: {
     type: Boolean,
     required: true
+  },
+  title: {
+    type: String,
+    default: ''
   }
 })
 
@@ -75,9 +82,9 @@ onMounted(() => {
       close()
     }
   }
-  
+
   document.addEventListener('keydown', handleKeyDown)
-  
+
   onUnmounted(() => {
     document.removeEventListener('keydown', handleKeyDown)
   })
