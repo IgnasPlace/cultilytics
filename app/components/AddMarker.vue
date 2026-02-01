@@ -5,7 +5,7 @@
   >
     <AtomsSpinner />
   </div>
-  <div class="absolute top-3 left-3 text-xs z-10 bg-white p-2 rounded-md">
+  <div class="absolute top-3 left-3 text-xs z-10 bg-white p-2 rounded-md max-w-[280px]">
     <button
       v-if="addMarkerMode === 'off'"
       class=""

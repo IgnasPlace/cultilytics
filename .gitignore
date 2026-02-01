@@ -28,3 +28,4 @@ public/uploads
 out.sql
 server/db/drizzle
 AGENTS.md
+.opencode
