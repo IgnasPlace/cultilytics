@@ -13,7 +13,7 @@
             v-model="state.email"
             type="email"
             required
-            placeholder="Email"
+            placeholder="Email *"
             class="login-input"
           />
         </div>
@@ -23,7 +23,7 @@
             v-model="state.password"
             type="password"
             required
-            placeholder="Password"
+            placeholder="Password *"
             class="login-input"
             minlength="8"
           />

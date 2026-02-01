@@ -33,14 +33,14 @@
         <input
           v-model="inputs.name"
           type="text"
-          placeholder="Marker name"
+          placeholder="Marker name *"
           class="border border-gray-300 py-1 px-1 rounded-md"
           required
         />
         <input
           v-model="inputs.id"
           type="text"
-          placeholder="Marker id"
+          placeholder="Marker id *"
           class="border border-gray-300 py-1 px-1 rounded-md"
           required
         />
