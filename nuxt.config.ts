@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     publicAssets: [
       {
         baseURL: "/uploads",
-        dir: "../public/uploads",
+        dir: "../../public/uploads",
       },
     ],
   },
