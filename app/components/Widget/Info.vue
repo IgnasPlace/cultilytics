@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-md mx-auto absolute top-3 left-3 bg-white rounded-md">
+  <div class="max-w-xs sm:max-w-md mx-auto absolute top-3 left-3 bg-white rounded-md">
     <div class="card">
       <div
         class="flex justify-between items-center border-b border-gray-200 px-4 py-2"
@@ -48,30 +48,20 @@
           Edit
         </button>
       </div>
-      <div
-        v-if="data.markerImage && data.markerImage.length > 0"
-        class="max-h-[250px] overflow-scroll"
-      >
-        <div
-          v-for="image in data.markerImage"
-          :key="image.id"
-          class="max-w-[180px] relative"
-        >
-          <img
-            :src="`/uploads/${image.thumbnailPath}`"
-            :alt="image.desc"
-            class="w-full"
-          />
-          <p class="absolute bottom-1 left-1 bg-white rounded-sm px-1">
-            {{
-              new Date(image.createdAt).getMonth() +
-              1 +
-              "-" +
-              new Date(image.createdAt).getFullYear()
-            }}
-          </p>
-        </div>
-      </div>
+      <!-- Image Grid -->
+      <AtomsImageGrid
+        :images="data.markerImage"
+        :max-visible="4"
+        @image-click="openImageCarousel"
+      />
+
+      <!-- Image Carousel Modal -->
+      <AtomsImageCarousel
+        v-if="isCarouselOpen"
+        :images="data.markerImage"
+        :start-index="currentImageIndex"
+        @close="closeImageCarousel"
+      />
       <WidgetImageUploader
         :marker-id="data.id"
         @upload-success="handleUploadSuccess"
@@ -88,6 +78,10 @@ const props = defineProps(["data"]);
 const markerStore = useStore("markers");
 const { showInfoWidget, currentSelectedMarker } = storeToRefs(markerStore);
 
+// Carousel state
+const isCarouselOpen = ref(false);
+const currentImageIndex = ref(0);
+
 const closeWidget = () => {
   showInfoWidget.value = false;
   currentSelectedMarker.value = null;
@@ -103,5 +97,16 @@ const handleUploadSuccess = (result) => {
 
 const handleUploadError = (error) => {
   console.error("Upload error:", error);
+};
+
+// Carousel methods
+const openImageCarousel = (index) => {
+  currentImageIndex.value = index;
+  isCarouselOpen.value = true;
+};
+
+const closeImageCarousel = () => {
+  isCarouselOpen.value = false;
+  currentImageIndex.value = 0;
 };
 </script>
