@@ -24,6 +24,12 @@ export default defineNuxtConfig({
     experimental: {
       database: true,
     },
+    publicAssets: [
+      {
+        baseURL: "/uploads",
+        dir: "../public/uploads",
+      },
+    ],
   },
   tailwindcss: {
     config: {

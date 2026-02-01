@@ -97,14 +97,11 @@ const toast = useToast();
 const markerStore = useStore("markers");
 
 // Authentication check
-const userStore = useStore("user");
 const { loggedIn } = useUserSession();
 
 const files = ref([]);
 const uploading = ref(false);
 const errorMessage = ref("");
-
-console.log(userStore);
 
 // Track upload progress and status per file
 const uploadStatus = ref({}); // file.name -> 'pending'|'uploading'|'success'|'error'
