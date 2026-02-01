@@ -1,0 +1,1 @@
+ALTER TABLE `marker` ADD `userId` integer REFERENCES user(id);

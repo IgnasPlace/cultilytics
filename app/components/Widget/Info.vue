@@ -59,7 +59,10 @@
         v-if="isCarouselOpen"
         :images="data.markerImage"
         :start-index="currentImageIndex"
+        :marker-id="data.id"
+        :marker-owner-id="data.userId"
         @close="closeImageCarousel"
+        @image-deleted="handleImageDeleted"
       />
 
       <!-- Image Uploader -->
@@ -134,7 +137,10 @@
         v-if="isCarouselOpen"
         :images="data.markerImage"
         :start-index="currentImageIndex"
+        :marker-id="data.id"
+        :marker-owner-id="data.userId"
         @close="closeImageCarousel"
+        @image-deleted="handleImageDeleted"
       />
       <!-- Image Uploader -->
       <WidgetImageUploader
@@ -153,7 +159,6 @@ const props = defineProps(["data"]);
 const markerStore = useStore("markers");
 const { showInfoWidget, currentSelectedMarker } = storeToRefs(markerStore);
 
-// Carousel state
 const isCarouselOpen = ref(false);
 const currentImageIndex = ref(0);
 
@@ -174,7 +179,12 @@ const handleUploadError = (error) => {
   console.error("Upload error:", error);
 };
 
-// Carousel methods
+const handleImageDeleted = (imageId) => {
+  if (props.data.markerImage.length === 0) {
+    closeImageCarousel();
+  }
+};
+
 const openImageCarousel = (index) => {
   currentImageIndex.value = index;
   isCarouselOpen.value = true;

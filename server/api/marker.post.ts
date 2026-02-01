@@ -1,11 +1,11 @@
 import { H3Error } from "h3";
 import { z } from "zod";
 import { tables } from "~~/server/utils/database";
+import { requireAuth } from "~~/server/utils/auth";
 
 const addMarkerSchema = z.object({
   id: z.string().min(1, "ID is required").max(255),
   name: z.string().min(1, "Name is required").max(255),
-  // latin_name: z.string().max(255),
   color: z.string(),
   type: z.string(),
   lng: z.number(),
@@ -14,7 +14,11 @@ const addMarkerSchema = z.object({
 
 export default defineEventHandler(async (event) => {
   try {
-    await requireAuth(event);
+    const user = await requireAuth(event);
+    const userId = parseInt(String(user.id), 10);
+    if (isNaN(userId)) {
+      throw new Error(`Invalid user ID: ${user.id} (type: ${typeof user.id})`);
+    }
 
     const { id, name, color, type, lng, lat } = await readValidatedBody(
       event,
@@ -25,6 +29,7 @@ export default defineEventHandler(async (event) => {
       .insert(tables.marker)
       .values({
         id: id,
+        userId: userId,
         name: name,
         color: color,
         type: type,
@@ -40,7 +45,7 @@ export default defineEventHandler(async (event) => {
     } else {
       throw createError({
         statusCode: 500,
-        statusMessage: "Error deleting marker.",
+        statusMessage: "Error creating marker.",
       });
     }
   }

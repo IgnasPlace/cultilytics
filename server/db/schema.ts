@@ -14,8 +14,13 @@ export const user = sqliteTable("user", (t) => ({
     .$onUpdate(() => new Date()),
 }));
 
+export const userRelations = relations(user, ({ many }) => ({
+  markers: many(marker),
+}));
+
 export const marker = sqliteTable("marker", (t) => ({
   id: t.text("id").unique().primaryKey(),
+  userId: t.integer("userId").references(() => user.id),
   lat: t.integer({ mode: "number" }),
   lng: t.integer({ mode: "number" }),
   type: t.text().notNull(),
@@ -42,7 +47,11 @@ export const markerImage = sqliteTable("markerImage", (t) => ({
   createdAt: t.integer({ mode: "timestamp_ms" }).$defaultFn(() => new Date()),
 }));
 
-export const markerRelations = relations(marker, ({ many }) => ({
+export const markerRelations = relations(marker, ({ one, many }) => ({
+  user: one(user, {
+    fields: [marker.userId],
+    references: [user.id],
+  }),
   markerImage: many(markerImage),
 }));
 
