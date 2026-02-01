@@ -40,28 +40,29 @@ export async function processAndSaveImages(
   // Process each size - convert all to WebP
   const [thumbnail, medium, large] = await Promise.all([
     sharp(imageBuffer)
-      .resize(150, 150, { 
-        fit: 'cover', 
+      .rotate()
+      .resize(150, 150, {
+        fit: 'cover',
         position: 'center',
-        withoutEnlargement: true 
+        withoutEnlargement: true
       })
       .webp({ quality: 85 })
       .toBuffer(),
-    
+
     sharp(imageBuffer)
-      .resize(800, 600, { 
-        fit: 'cover', 
-        position: 'center',
-        withoutEnlargement: true 
+      .rotate()
+      .resize(800, 800, {
+        fit: 'inside',
+        withoutEnlargement: true
       })
       .webp({ quality: 85 })
       .toBuffer(),
-    
+
     sharp(imageBuffer)
-      .resize(1920, 1080, { 
-        fit: 'cover', 
-        position: 'center',
-        withoutEnlargement: true 
+      .rotate()
+      .resize(1920, 1920, {
+        fit: 'inside',
+        withoutEnlargement: true
       })
       .webp({ quality: 85 })
       .toBuffer()
