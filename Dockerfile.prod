@@ -13,5 +13,8 @@ RUN npm run build
 ENV NODE_ENV=production
 ENV PORT=4000
 
+RUN rm -rf /app/.output/public/uploads && \
+    ln -s /app/public/uploads /app/.output/public/uploads
+
 CMD ["node", ".output/server/index.mjs"]
 EXPOSE 4000
