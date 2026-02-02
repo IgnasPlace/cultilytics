@@ -123,7 +123,7 @@
             :class="[
               'w-2 h-2 rounded-full transition-all duration-200',
               index === currentIndex
-                ? 'bg-[#4C763B] w-8'
+                ? 'bg-primary w-8'
                 : 'bg-gray-300 hover:bg-gray-400',
             ]"
             :aria-label="`Go to image ${index + 1}`"

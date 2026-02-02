@@ -3,8 +3,8 @@
     :class="[
       'border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer',
       isDragActive
-        ? 'border-[#4C763B] bg-[#4c763b10]'
-        : 'border-gray-300 hover:border-[#4C763B] hover:bg-gray-50',
+        ? 'border-primary bg-primary/10'
+        : 'border-gray-300 hover:border-primary hover:bg-gray-50',
       disabled && 'opacity-50 cursor-not-allowed'
     ]"
     @click="handleClick"
@@ -48,6 +48,8 @@
 </template>
 
 <script setup>
+import { COLORS } from '@/config/colors';
+
 const emit = defineEmits(['files-selected', 'error'])
 
 const props = defineProps({
@@ -145,9 +147,9 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Ensure consistent focus styles */
+/* Ensure consistent focus styles using CSS variable bound to primary color */
 *:focus {
-  outline: 2px solid #4C763B;
+  outline: 2px solid v-bind('COLORS.PRIMARY');
   outline-offset: 2px;
 }
 </style>

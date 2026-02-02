@@ -2,7 +2,7 @@
   <div class="px-4 pt-4 pb-3 border-b border-gray-200">
     <!-- Plant Icon & Name -->
     <div class="flex items-start gap-3">
-      <div class="w-12 h-12 rounded-full bg-[#4C763B]/10 flex items-center justify-center flex-shrink-0">
+      <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
         <span class="text-2xl">{{ plantIcon }}</span>
       </div>
       <div class="flex-1 min-w-0">
@@ -22,7 +22,7 @@
     <!-- Quick Stats -->
     <div class="grid grid-cols-3 gap-2 mt-4">
       <div class="bg-gray-50 rounded-lg p-2 text-center">
-        <div class="flex items-center justify-center gap-1 text-[#4C763B]">
+        <div class="flex items-center justify-center gap-1 text-primary">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
           </svg>

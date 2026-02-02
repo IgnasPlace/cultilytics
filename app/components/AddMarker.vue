@@ -74,6 +74,8 @@
 </template>
 
 <script setup>
+import { COLORS } from "@/config/colors";
+
 const markerStore = useStore("markers");
 const { addMarkerMode, currentUnsavedMarker } = storeToRefs(markerStore);
 
@@ -117,7 +119,7 @@ const submitSaveMarker = async () => {
     lng: currentUnsavedMarker.value.lng,
     lat: currentUnsavedMarker.value.lat,
     type: inputs.type,
-    color: "#4C763B",
+    color: COLORS.PRIMARY,
     name: inputs.name,
   };
   try {

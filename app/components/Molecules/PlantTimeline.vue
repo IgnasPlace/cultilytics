@@ -5,7 +5,7 @@
       <button 
         v-if="timelineItems.length > 0"
         @click="showAll = !showAll"
-        class="text-xs text-[#4C763B] hover:text-[#598b45]"
+        class="text-xs text-primary hover:text-primary-light"
       >
         {{ showAll ? 'Show Less' : 'View All' }}
       </button>

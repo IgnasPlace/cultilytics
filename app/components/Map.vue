@@ -31,18 +31,19 @@
         </MglPopup>
       </MglMarker>
     </MglMap>
-    <WidgetInfo
+    <MoleculesInfo
       v-if="showInfoWidget && currentSelectedMarker"
       :data="currentSelectedMarker"
     />
     <AddMarker v-else />
-    <WidgetUser />
+    <MoleculesUser />
   </div>
 </template>
 
 <script setup>
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useMap } from "@indoorequal/vue-maplibre-gl";
+import { COLORS } from "@/config/colors";
 
 const config = useRuntimeConfig();
 
@@ -82,7 +83,7 @@ onMounted(async () => {
         name: "",
         nameLatin: "",
         type: "Tree",
-        color: "#B95E82",
+        color: COLORS.SECONDARY,
         draggable: true,
       });
     }

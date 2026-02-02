@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `marker` (
 	`updatedAt` integer
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `marker_id_unique` ON `marker` (`id`);--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS `marker_id_unique` ON `marker` (`id`);--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS `markerImage` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`userId` integer,
@@ -34,4 +34,4 @@ CREATE TABLE IF NOT EXISTS `user` (
 	`updatedAt` integer
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);
+CREATE UNIQUE INDEX IF NOT EXISTS `user_email_unique` ON `user` (`email`);
