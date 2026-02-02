@@ -70,7 +70,7 @@
     <div v-if="uploadStatus === 'uploading' && uploadProgress > 0" class="mt-1">
       <div class="w-24 bg-gray-200 rounded-full h-1">
         <div
-          class="bg-[#4C763B] h-1 rounded-full transition-all"
+          class="bg-primary h-1 rounded-full transition-all"
           :style="{ width: `${uploadProgress}%` }"
         ></div>
       </div>

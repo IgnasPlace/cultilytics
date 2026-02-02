@@ -16,7 +16,7 @@
     <!-- Scrollable Content -->
     <div class="overflow-y-auto flex-1">
       <!-- Plant Header -->
-      <WidgetPlantHeader
+      <MoleculesPlantHeader
         :plant="data"
         :latest-health="latestHealth"
         :latest-growth="latestGrowth"
@@ -25,52 +25,62 @@
 
       <!-- Action Buttons -->
       <div class="flex gap-2 px-4 py-3 border-b border-gray-200">
-        <button
+        <AtomsButton
+          variant="primary"
+          size="sm"
+          class="flex-1"
           @click="showAddTreatment = true"
-          class="flex-1 px-2 py-2 bg-[#4C763B] text-white rounded-md text-sm font-medium hover:bg-[#598b45] transition-colors"
         >
           + Treatment
-        </button>
-        <button
+        </AtomsButton>
+        <AtomsButton
+          variant="primary"
+          size="sm"
+          class="flex-1"
           @click="showAddGrowth = true"
-          class="flex-1 px-2 py-2 bg-[#4C763B] text-white rounded-md text-sm font-medium hover:bg-[#598b45] transition-colors"
         >
           + Height
-        </button>
-        <button
+        </AtomsButton>
+        <AtomsButton
+          variant="secondary"
+          size="sm"
+          class="flex-1"
           @click="showAddTask = true"
-          class="flex-1 px-2 py-2 bg-[#B95E82] text-white rounded-md text-sm font-medium hover:bg-[#a85473] transition-colors"
         >
           + Task
-        </button>
+        </AtomsButton>
       </div>
 
       <div class="flex gap-2 px-4 py-2 border-b border-gray-200 bg-gray-50">
-        <button
+        <AtomsButton
+          variant="outline"
+          size="sm"
+          class="flex-1 border-primary text-primary hover:bg-green-50"
           @click="showUpdateHealth = true"
-          class="flex-1 px-3 py-2 bg-white border border-[#4C763B] text-[#4C763B] rounded-md text-sm font-medium hover:bg-green-50 transition-colors"
         >
           Health
-        </button>
-        <button
+        </AtomsButton>
+        <AtomsButton
+          variant="outline"
+          size="sm"
+          class="flex-1 border-amber-500 text-amber-600 hover:bg-amber-50"
           @click="showAddYield = true"
-          class="flex-1 px-3 py-2 bg-white border border-amber-500 text-amber-600 rounded-md text-sm font-medium hover:bg-amber-50 transition-colors"
         >
           Harvest
-        </button>
-        <button
+        </AtomsButton>
+        <AtomsButton
+          variant="outline"
+          size="sm"
+          class="flex-1 border-red-400 text-red-500 hover:bg-red-50"
           @click="showAddExpense = true"
-          class="flex-1 px-3 py-2 bg-white border border-red-400 text-red-500 rounded-md text-sm font-medium hover:bg-red-50 transition-colors"
         >
           Expense
-        </button>
+        </AtomsButton>
         <button
           @click="deleteMarker"
           class="px-2 py-2 text-red-600 hover:text-red-800 transition-colors text-sm"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
+          <AtomsIcon name="trash" color="red" />
         </button>
       </div>
 
@@ -88,27 +98,19 @@
               :disabled="completingTaskId === task.id"
               class="w-5 h-5 rounded border-2 border-yellow-400 hover:border-green-500 hover:bg-green-50 flex items-center justify-center transition-colors"
             >
-              <svg v-if="completingTaskId === task.id" class="w-3 h-3 animate-spin" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-              </svg>
+              <AtomsIcon v-if="completingTaskId === task.id" name="spinner" size="sm" />
             </button>
             <div class="flex-1 min-w-0">
               <p class="text-sm font-medium text-gray-900 truncate">{{ formatTaskType(task.taskType) }}</p>
               <p class="text-xs text-gray-500">Due {{ formatDate(task.dueDate) }}</p>
             </div>
-            <span
-              class="px-2 py-0.5 rounded text-xs font-medium"
-              :class="task.priority === 'high' ? 'bg-red-100 text-red-700' : task.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-blue-100 text-blue-700'"
-            >
-              {{ task.priority }}
-            </span>
+            <AtomsBadge :variant="task.priority === 'high' ? 'error' : task.priority === 'medium' ? 'warning' : 'info'" size="sm">{{ task.priority }}</AtomsBadge>
           </div>
         </div>
       </div>
 
       <!-- Timeline -->
-      <WidgetPlantTimeline
+      <MoleculesPlantTimeline
         :treatments="data.treatments || []"
         :growth-records="data.growthRecords || []"
         :health-records="data.healthRecords || []"
@@ -138,7 +140,7 @@
 
       <!-- Image Uploader -->
       <div class="px-4 py-4 border-t border-gray-200">
-        <WidgetImageUploader
+        <MoleculesImageUploader
           :marker-id="data.id"
           @upload-success="handleUploadSuccess"
           @upload-error="handleUploadError"
@@ -159,6 +161,8 @@
   </div>
 
   <!-- Desktop Layout -->
+
+  <!-- Desktop Layout -->
   <div class="hidden sm:block max-w-sm mx-auto absolute top-3 left-3 bg-white rounded-md z-20 shadow-lg">
     <div class="max-h-[85vh] overflow-y-auto">
       <!-- Close Button -->
@@ -172,7 +176,7 @@
       </div>
 
       <!-- Plant Header -->
-      <WidgetPlantHeader
+      <MoleculesPlantHeader
         :plant="data"
         :latest-health="latestHealth"
         :latest-growth="latestGrowth"
@@ -181,52 +185,62 @@
 
       <!-- Action Buttons -->
       <div class="flex gap-2 px-4 py-3 border-b border-gray-200">
-        <button
+        <AtomsButton
+          variant="primary"
+          size="sm"
+          class="flex-1"
           @click="showAddTreatment = true"
-          class="flex-1 px-3 py-2 bg-[#4C763B] text-white rounded-md text-sm font-medium hover:bg-[#598b45] transition-colors"
         >
           + Treatment
-        </button>
-        <button
+        </AtomsButton>
+        <AtomsButton
+          variant="primary"
+          size="sm"
+          class="flex-1"
           @click="showAddGrowth = true"
-          class="flex-1 px-3 py-2 bg-[#4C763B] text-white rounded-md text-sm font-medium hover:bg-[#598b45] transition-colors"
         >
           + Height
-        </button>
-        <button
+        </AtomsButton>
+        <AtomsButton
+          variant="secondary"
+          size="sm"
+          class="flex-1"
           @click="showAddTask = true"
-          class="flex-1 px-3 py-2 bg-[#B95E82] text-white rounded-md text-sm font-medium hover:bg-[#a85473] transition-colors"
         >
           + Task
-        </button>
+        </AtomsButton>
       </div>
 
       <div class="flex gap-2 px-4 py-2 border-b border-gray-200 bg-gray-50">
-        <button
+        <AtomsButton
+          variant="outline"
+          size="sm"
+          class="flex-1 border-primary text-primary hover:bg-green-50"
           @click="showUpdateHealth = true"
-          class="flex-1 px-3 py-2 bg-white border border-[#4C763B] text-[#4C763B] rounded-md text-sm font-medium hover:bg-green-50 transition-colors"
         >
           Health
-        </button>
-        <button
+        </AtomsButton>
+        <AtomsButton
+          variant="outline"
+          size="sm"
+          class="flex-1 border-amber-500 text-amber-600 hover:bg-amber-50"
           @click="showAddYield = true"
-          class="flex-1 px-3 py-2 bg-white border border-amber-500 text-amber-600 rounded-md text-sm font-medium hover:bg-amber-50 transition-colors"
         >
           Harvest
-        </button>
-        <button
+        </AtomsButton>
+        <AtomsButton
+          variant="outline"
+          size="sm"
+          class="flex-1 border-red-400 text-red-500 hover:bg-red-50"
           @click="showAddExpense = true"
-          class="flex-1 px-3 py-2 bg-white border border-red-400 text-red-500 rounded-md text-sm font-medium hover:bg-red-50 transition-colors"
         >
           Expense
-        </button>
+        </AtomsButton>
         <button
           @click="deleteMarker"
           class="px-2 py-2 text-red-600 hover:text-red-800 transition-colors text-sm"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
+          <AtomsIcon name="trash" color="red" />
         </button>
       </div>
 
@@ -244,27 +258,19 @@
               :disabled="completingTaskId === task.id"
               class="w-5 h-5 rounded border-2 border-yellow-400 hover:border-green-500 hover:bg-green-50 flex items-center justify-center transition-colors"
             >
-              <svg v-if="completingTaskId === task.id" class="w-3 h-3 animate-spin" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-              </svg>
+              <AtomsIcon v-if="completingTaskId === task.id" name="spinner" size="sm" />
             </button>
             <div class="flex-1 min-w-0">
               <p class="text-sm font-medium text-gray-900 truncate">{{ formatTaskType(task.taskType) }}</p>
               <p class="text-xs text-gray-500">Due {{ formatDate(task.dueDate) }}</p>
             </div>
-            <span
-              class="px-2 py-0.5 rounded text-xs font-medium"
-              :class="task.priority === 'high' ? 'bg-red-100 text-red-700' : task.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-blue-100 text-blue-700'"
-            >
-              {{ task.priority }}
-            </span>
+            <AtomsBadge :variant="task.priority === 'high' ? 'error' : task.priority === 'medium' ? 'warning' : 'info'" size="sm">{{ task.priority }}</AtomsBadge>
           </div>
         </div>
       </div>
 
       <!-- Timeline -->
-      <WidgetPlantTimeline
+      <MoleculesPlantTimeline
         :treatments="data.treatments || []"
         :growth-records="data.growthRecords || []"
         :health-records="data.healthRecords || []"
@@ -294,7 +300,7 @@
 
       <!-- Image Uploader -->
       <div class="px-4 py-4 border-t border-gray-200">
-        <WidgetImageUploader
+        <MoleculesImageUploader
           :marker-id="data.id"
           @upload-success="handleUploadSuccess"
           @upload-error="handleUploadError"
@@ -317,8 +323,9 @@
   <!-- Treatment Form Modal -->
   <AtomsModal :is-open="showAddTreatment" title="Add Treatment" @close="showAddTreatment = false">
     <div class="w-full max-w-md">
-      <WidgetTreatmentForm
+      <MoleculesEntityForm
         :marker-id="data.id"
+        :config="treatmentFormConfig"
         @close="showAddTreatment = false"
         @success="handleTreatmentSuccess"
       />
@@ -328,8 +335,9 @@
   <!-- Growth Form Modal -->
   <AtomsModal :is-open="showAddGrowth" title="Add Height Measurement" @close="showAddGrowth = false">
     <div class="w-full max-w-md">
-      <WidgetGrowthForm
+      <MoleculesEntityForm
         :marker-id="data.id"
+        :config="growthFormConfig"
         @close="showAddGrowth = false"
         @success="handleGrowthSuccess"
       />
@@ -337,10 +345,11 @@
   </AtomsModal>
 
   <!-- Task Form Modal -->
-  <AtomsModal :is-open="showAddTask" title="Create Task" @close="showAddTask = false">
+  <AtomsModal :is-open="showAddTask" title="Create Task" @close="showAddTask = false" class="min-w-[90vw]">
     <div class="w-full max-w-md">
-      <WidgetTaskForm
+      <MoleculesEntityForm
         :marker-id="data.id"
+        :config="taskFormConfig"
         @close="showAddTask = false"
         @success="handleTaskSuccess"
       />
@@ -350,8 +359,9 @@
   <!-- Health Form Modal -->
   <AtomsModal :is-open="showUpdateHealth" title="Update Health Status" @close="showUpdateHealth = false">
     <div class="w-full max-w-md">
-      <WidgetHealthForm
+      <MoleculesEntityForm
         :marker-id="data.id"
+        :config="healthFormConfig"
         @close="showUpdateHealth = false"
         @success="handleHealthSuccess"
       />
@@ -361,8 +371,9 @@
   <!-- Yield Form Modal -->
   <AtomsModal :is-open="showAddYield" title="Record Harvest" @close="showAddYield = false">
     <div class="w-full max-w-md">
-      <WidgetYieldForm
+      <MoleculesEntityForm
         :marker-id="data.id"
+        :config="yieldFormConfig"
         @close="showAddYield = false"
         @success="handleYieldSuccess"
       />
@@ -372,8 +383,9 @@
   <!-- Expense Form Modal -->
   <AtomsModal :is-open="showAddExpense" title="Add Expense" @close="showAddExpense = false">
     <div class="w-full max-w-md">
-      <WidgetExpenseForm
+      <MoleculesEntityForm
         :marker-id="data.id"
+        :config="expenseFormConfig"
         @close="showAddExpense = false"
         @success="handleExpenseSuccess"
       />
@@ -381,47 +393,30 @@
   </AtomsModal>
 
   <!-- Delete Confirmation Modal -->
-  <AtomsModal :is-open="showDeleteConfirm" title="Delete Marker" @close="showDeleteConfirm = false">
-    <div class="p-6 max-w-sm">
-      <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-          <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900">Delete {{ data.name }}?</h3>
-          <p class="text-sm text-gray-500">ID: {{ data.id }}</p>
-        </div>
-      </div>
-      <p class="text-gray-600 mb-6">
-        This action cannot be undone. All data including photos, treatment records, and task history will be permanently deleted.
-      </p>
-      <div class="flex gap-3">
-        <button
-          @click="showDeleteConfirm = false"
-          class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
-          :disabled="isDeleting"
-        >
-          Cancel
-        </button>
-        <button
-          @click="confirmDelete"
-          class="flex-1 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors flex items-center justify-center gap-2"
-          :disabled="isDeleting"
-        >
-          <svg v-if="isDeleting" class="w-4 h-4 animate-spin" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-          </svg>
-          {{ isDeleting ? 'Deleting...' : 'Delete' }}
-        </button>
-      </div>
-    </div>
-  </AtomsModal>
+  <AtomsConfirmationModal
+    :is-open="showDeleteConfirm"
+    title="Delete Marker"
+    :subtitle="`ID: ${data.id}`"
+    message="This action cannot be undone. All data including photos, treatment records, and task history will be permanently deleted."
+    confirm-text="Delete"
+    :confirm-variant="'danger'"
+    :is-processing="isDeleting"
+    icon-name="trash"
+    @close="showDeleteConfirm = false"
+    @confirm="confirmDelete"
+  />
 </template>
 
 <script setup>
+import {
+  treatmentFormConfig,
+  growthFormConfig,
+  healthFormConfig,
+  taskFormConfig,
+  yieldFormConfig,
+  expenseFormConfig
+} from '~/config/forms';
+
 const props = defineProps(["data"]);
 
 const markerStore = useStore("markers");

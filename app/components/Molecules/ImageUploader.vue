@@ -5,7 +5,7 @@
       <p class="text-gray-500 text-sm">Please log in to upload images</p>
       <NuxtLink
         to="/login"
-        class="text-[#4C763B] text-sm hover:underline mt-1 inline-block"
+        class="text-primary text-sm hover:underline mt-1 inline-block"
       >
         Log in
       </NuxtLink>
@@ -64,7 +64,7 @@
           <button
             @click="handleUpload"
             :disabled="uploading || files.length === 0"
-            class="px-6 py-2 bg-[#4C763B] text-white rounded-md hover:bg-[#598b45] transition-colors disabled:bg-[#63745d] disabled:cursor-not-allowed flex items-center gap-2"
+            class="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary-light transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed flex items-center gap-2"
           >
             <AtomsSpinner v-if="uploading" class="w-4 h-4" />
             {{

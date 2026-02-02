@@ -9,7 +9,7 @@
   >
     <div
       v-if="isOpen"
-      class="fixed inset-0 z-50 flex items-center justify-center"
+      class="fixed min-w-[90vw] inset-0 z-50 flex items-center justify-center"
       @click="handleOverlayClick"
     >
       <!-- Overlay -->
@@ -26,7 +26,7 @@
       >
         <div
           v-if="isOpen"
-          class="relative bg-white rounded-lg shadow-2xl max-w-[95vw] max-h-[95vh] sm:max-w-[90vw] sm:max-h-[90vh] md:max-w-[80vw] md:max-h-[85vh] lg:max-w-[80vw] lg:max-h-[85vh] overflow-hidden flex flex-col"
+          class="relative bg-white rounded-lg shadow-2xl min-w-[90vw] max-w-[95vw] max-h-[95vh] sm:min-w-96 sm:max-w-[90vw] sm:max-h-[90vh] md:max-w-[80vw] md:max-h-[85vh] lg:max-w-[80vw] lg:max-h-[85vh] overflow-hidden flex flex-col"
           @click.stop
         >
           <!-- Header with Title and Close Button -->

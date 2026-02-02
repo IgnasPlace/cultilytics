@@ -1,4 +1,4 @@
-CREATE TABLE `plantExpenses` (
+CREATE TABLE IF NOT EXISTS `plantExpenses` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`markerId` text NOT NULL,
 	`category` text NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE `plantExpenses` (
 	FOREIGN KEY (`recordedBy`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `plantYieldRecords` (
+CREATE TABLE IF NOT EXISTS `plantYieldRecords` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`markerId` text NOT NULL,
 	`harvestDate` integer,

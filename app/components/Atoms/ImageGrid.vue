@@ -32,7 +32,7 @@
       <button
         v-if="images.length > maxVisible"
         @click="handleViewAllClick"
-        class="w-full mt-2 px-3 py-1.5 bg-[#4C763B] text-white rounded-md hover:bg-[#598b45] transition-colors duration-200 text-xs font-medium"
+        class="w-full mt-2 px-3 py-1.5 bg-primary text-white rounded-md hover:bg-primary-light transition-colors duration-200 text-xs font-medium"
       >
         View all {{ images.length }} images
       </button>
@@ -83,7 +83,7 @@
       <button
         v-if="images.length > maxVisible"
         @click="handleViewAllClick"
-        class="w-full px-4 py-2 bg-[#4C763B] text-white rounded-md hover:bg-[#598b45] transition-colors duration-200 text-sm font-medium"
+        class="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-light transition-colors duration-200 text-sm font-medium"
       >
         View all {{ images.length }} images
       </button>

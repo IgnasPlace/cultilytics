@@ -1,0 +1,100 @@
+/**
+ * Composable for centralized date formatting
+ * Eliminates duplicate date formatting logic across components
+ */
+export function useDateFormatter() {
+  /**
+   * Format a timestamp to a short date string (e.g., "Jan 15")
+   * @param {number|string|Date} timestamp - Date timestamp or Date object
+   * @returns {string} Formatted date string
+   */
+  const formatShortDate = (timestamp) => {
+    if (!timestamp) return '';
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
+  /**
+   * Format a timestamp to a medium date string (e.g., "Jan 15, 2024")
+   * @param {number|string|Date} timestamp - Date timestamp or Date object
+   * @returns {string} Formatted date string
+   */
+  const formatMediumDate = (timestamp) => {
+    if (!timestamp) return '';
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  };
+
+  /**
+   * Format a timestamp to a long date string (e.g., "January 15, 2024")
+   * @param {number|string|Date} timestamp - Date timestamp or Date object
+   * @returns {string} Formatted date string
+   */
+  const formatLongDate = (timestamp) => {
+    if (!timestamp) return '';
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  };
+
+  /**
+   * Format a timestamp to ISO date format for input fields (YYYY-MM-DD)
+   * @param {number|string|Date} timestamp - Date timestamp or Date object
+   * @returns {string} ISO date string
+   */
+  const formatISODate = (timestamp) => {
+    if (!timestamp) return '';
+    const date = new Date(timestamp);
+    return date.toISOString().split('T')[0];
+  };
+
+  /**
+   * Format a timestamp to a relative time string (e.g., "2 days ago", "in 3 hours")
+   * @param {number|string|Date} timestamp - Date timestamp or Date object
+   * @returns {string} Relative time string
+   */
+  const formatRelativeTime = (timestamp) => {
+    if (!timestamp) return '';
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMs = date.getTime() - now.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+
+    if (diffDays === 0) {
+      if (diffHours === 0) {
+        const diffMinutes = Math.floor(diffMs / (1000 * 60));
+        if (diffMinutes === 0) return 'just now';
+        return diffMinutes > 0 ? `in ${diffMinutes} minutes` : `${Math.abs(diffMinutes)} minutes ago`;
+      }
+      return diffHours > 0 ? `in ${diffHours} hours` : `${Math.abs(diffHours)} hours ago`;
+    } else if (diffDays === 1) {
+      return 'tomorrow';
+    } else if (diffDays === -1) {
+      return 'yesterday';
+    } else if (diffDays > 0) {
+      return `in ${diffDays} days`;
+    } else {
+      return `${Math.abs(diffDays)} days ago`;
+    }
+  };
+
+  /**
+   * Format a timestamp to a time string (e.g., "2:30 PM")
+   * @param {number|string|Date} timestamp - Date timestamp or Date object
+   * @returns {string} Time string
+   */
+  const formatTime = (timestamp) => {
+    if (!timestamp) return '';
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  };
+
+  return {
+    formatShortDate,
+    formatMediumDate,
+    formatLongDate,
+    formatISODate,
+    formatRelativeTime,
+    formatTime
+  };
+}

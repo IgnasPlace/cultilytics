@@ -1,4 +1,4 @@
-CREATE TABLE `plantGrowthRecords` (
+CREATE TABLE IF NOT EXISTS `plantGrowthRecords` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`markerId` text NOT NULL,
 	`height` integer NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE `plantGrowthRecords` (
 	FOREIGN KEY (`measuredBy`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `plantHealthRecords` (
+CREATE TABLE IF NOT EXISTS `plantHealthRecords` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`markerId` text NOT NULL,
 	`status` text NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE `plantHealthRecords` (
 	FOREIGN KEY (`recordedBy`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `plantTasks` (
+CREATE TABLE IF NOT EXISTS `plantTasks` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`markerId` text NOT NULL,
 	`taskType` text NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE `plantTasks` (
 	FOREIGN KEY (`createdBy`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `plantTreatments` (
+CREATE TABLE IF NOT EXISTS `plantTreatments` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`markerId` text NOT NULL,
 	`type` text NOT NULL,

@@ -73,7 +73,7 @@ export default defineNuxtConfig({
       },
     },
     allowedMethodsRestricter: {
-      methods: ["GET", "POST", "DELETE"],
+      methods: ["GET", "POST", "DELETE", "PATCH"],
     },
     requestSizeLimiter: {
       maxRequestSizeInBytes: 6000000,

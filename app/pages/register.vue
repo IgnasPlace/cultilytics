@@ -2,12 +2,24 @@
   <div
     class="register-bg min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
   >
-    <div class="max-w-md w-full space-y-8 bg-gray-800 text-gray-300 rounded-xl shadow-lg p-8">
-      <div class="space-y-4">
+    <div
+      class="max-w-md w-full space-y-8 bg-gray-800 text-gray-300 rounded-xl shadow-lg p-8"
+    >
+      <!-- <div class="space-y-4">
         <h2 class="text-3xl font-bold text-center">Register</h2>
+      </div> -->
+
+      <div class="space-y-4">
+        <h3 class="text-base text-center">
+          Direct registration is not supported right now. We apologize for the
+          inconvenience
+        </h3>
+        <p class="text-sm text-center">
+          Please contact Customer Service to create a new account
+        </p>
       </div>
 
-      <form @submit.prevent="register" class="flex flex-col gap-4">
+      <!-- <form @submit.prevent="register" class="flex flex-col gap-4">
         <div class="rounded-md shadow-sm space-y-2">
           <input
             v-model="state.name"
@@ -56,11 +68,13 @@
         >
           Register
         </button>
-      </form>
-      <div class="text-center text-sm ">
+      </form> -->
+      <div class="text-center text-sm">
         <p>
           Already have an account?
-          <NuxtLink to="/login" class="text-fuchsia-400 hover:text-fuchsia-300 underline"
+          <NuxtLink
+            to="/login"
+            class="text-fuchsia-400 hover:text-fuchsia-300 underline"
             >Login</NuxtLink
           >
         </p>
