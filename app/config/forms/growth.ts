@@ -1,9 +1,11 @@
+import type { FormConfig } from './types';
+
 /**
  * Form configuration for Growth form
  * Used with EntityForm component
  */
-export const growthFormConfig = {
-  endpoint: (markerId) => `/api/marker/${markerId}/growth`,
+export const growthFormConfig: FormConfig = {
+  endpoint: (markerId: string) => `/api/marker/${markerId}/growth`,
   submitButtonText: 'Record Height',
   fields: [
     {
@@ -31,12 +33,12 @@ export const growthFormConfig = {
       rows: 2
     }
   ],
-  transformData: (formData) => ({
+  transformData: (formData: Record<string, any>) => ({
     height: parseInt(formData.height),
     measuredAt: new Date(formData.date).getTime(),
     notes: formData.notes || null
   }),
-  validate: (formData) => {
+  validate: (formData: Record<string, any>) => {
     if (!formData.height || parseFloat(formData.height) <= 0) {
       return 'Please enter a valid height';
     }

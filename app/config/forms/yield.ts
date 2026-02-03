@@ -1,9 +1,11 @@
+import type { FormConfig } from './types';
+
 /**
  * Form configuration for Yield form
  * Used with EntityForm component
  */
-export const yieldFormConfig = {
-  endpoint: (markerId) => `/api/marker/${markerId}/yield`,
+export const yieldFormConfig: FormConfig = {
+  endpoint: (markerId: string) => `/api/marker/${markerId}/yield`,
   submitButtonText: 'Record Harvest',
   fields: [
     {
@@ -43,7 +45,7 @@ export const yieldFormConfig = {
       rows: 2
     }
   ],
-  transformData: (formData) => {
+  transformData: (formData: Record<string, any>) => {
     // Convert grams to kg if needed
     let quantityValue = formData.quantity;
     if (formData.unit === 'g') {
@@ -57,7 +59,7 @@ export const yieldFormConfig = {
       notes: formData.notes || null
     };
   },
-  validate: (formData) => {
+  validate: (formData: Record<string, any>) => {
     if (!formData.quantity || parseFloat(formData.quantity) <= 0) {
       return 'Please enter a valid quantity';
     }

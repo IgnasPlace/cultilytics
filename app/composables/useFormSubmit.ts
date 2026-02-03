@@ -1,27 +1,35 @@
+import { ref } from "vue";
+
 /**
  * Composable for generic form submission with loading and error states
  * Eliminates duplicate form submission logic across form components
  */
 export function useFormSubmit() {
-  const isSubmitting = ref(false);
-  const error = ref(null);
+  const isSubmitting = ref<boolean>(false);
+  const error = ref<string | null>(null);
 
   /**
    * Submit form data to an API endpoint
-   * @param {string} endpoint - API endpoint URL
-   * @param {Object} data - Form data to submit
-   * @param {string} method - HTTP method (POST, PUT, PATCH)
-   * @param {Function} onSuccess - Callback on successful submission
-   * @param {Function} onError - Callback on error
-   * @returns {Promise<Object>} Response data
+   * @param endpoint - API endpoint URL
+   * @param data - Form data to submit
+   * @param method - HTTP method (POST, PUT, PATCH, GET, DELETE)
+   * @param onSuccess - Callback on successful submission
+   * @param onError - Callback on error
+   * @returns Response data
    */
-  const submitForm = async (endpoint, data, method = 'POST', onSuccess = null, onError = null) => {
+  const submitForm = async <T = any>(
+    endpoint: string,
+    data: Record<string, any>,
+    method: "POST" | "PUT" | "PATCH" | "GET" | "DELETE" = "POST",
+    onSuccess: ((response: T) => void) | null = null,
+    onError: ((error: Error) => void) | null = null
+  ): Promise<T> => {
     isSubmitting.value = true;
     error.value = null;
 
     try {
-      const response = await $fetch(endpoint, {
-        method,
+      const response: T = await $fetch(endpoint, {
+        method: method as any,
         body: data
       });
 
@@ -30,7 +38,7 @@ export function useFormSubmit() {
       }
 
       return response;
-    } catch (err) {
+    } catch (err: any) {
       error.value = err.message || 'An error occurred';
       console.error('Form submission error:', err);
 
@@ -47,7 +55,7 @@ export function useFormSubmit() {
   /**
    * Reset the form state
    */
-  const resetForm = () => {
+  const resetForm = (): void => {
     isSubmitting.value = false;
     error.value = null;
   };

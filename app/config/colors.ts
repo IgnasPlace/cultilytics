@@ -3,7 +3,7 @@
  * Replaces hardcoded color values across components
  */
 
-export const COLORS = {
+export const COLORS: Record<string, string> = {
   // Primary brand color - green (#4C763B)
   PRIMARY: '#4C763B',
   PRIMARY_LIGHT: '#5A8A47',
@@ -64,14 +64,18 @@ export const COLORS = {
 /**
  * Color utilities for dynamic color generation
  */
-export const colorUtils = {
+export const colorUtils: {
+  hexToRgba: (hex: string, alpha?: number) => string;
+  withOpacity: (colorKey: string, alpha?: number) => string;
+  asCssVar: (colorKey: string) => string;
+} = {
   /**
    * Convert hex color to rgba with opacity
-   * @param {string} hex - Hex color code
-   * @param {number} alpha - Opacity (0-1)
-   * @returns {string} rgba color string
+   * @param hex - Hex color code
+   * @param alpha - Opacity (0-1)
+   * @returns rgba color string
    */
-  hexToRgba(hex, alpha = 1) {
+  hexToRgba(hex: string, alpha: number = 1): string {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
@@ -80,11 +84,11 @@ export const colorUtils = {
 
   /**
    * Get color with opacity applied
-   * @param {string} colorKey - Key from COLORS object
-   * @param {number} alpha - Opacity (0-1)
-   * @returns {string} rgba color string
+   * @param colorKey - Key from COLORS object
+   * @param alpha - Opacity (0-1)
+   * @returns rgba color string
    */
-  withOpacity(colorKey, alpha = 1) {
+  withOpacity(colorKey: string, alpha: number = 1): string {
     const hex = COLORS[colorKey];
     if (!hex || !hex.startsWith('#')) return hex;
     return this.hexToRgba(hex, alpha);
@@ -93,19 +97,25 @@ export const colorUtils = {
   /**
    * Get CSS variable value for a color
    * Useful for dynamic style binding
-   * @param {string} colorKey - Key from COLORS object
-   * @returns {string} CSS variable reference
+   * @param colorKey - Key from COLORS object
+   * @returns CSS variable reference
    */
-  asCssVar(colorKey) {
+  asCssVar(colorKey: string): string {
     return `var(--color-${colorKey.toLowerCase().replace(/_/g, '-')})`;
   },
 };
+
+interface ColorStyle {
+  color?: string;
+  backgroundColor?: string;
+  borderColor?: string;
+}
 
 /**
  * CSS-in-JS friendly color styles
  * Use these for inline style objects
  */
-export const colorStyles = {
+export const colorStyles: Record<string, ColorStyle> = {
   primary: { color: COLORS.PRIMARY },
   primaryBg: { backgroundColor: COLORS.PRIMARY },
   secondary: { color: COLORS.SECONDARY },

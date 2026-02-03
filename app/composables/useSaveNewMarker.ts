@@ -1,5 +1,11 @@
-export default async function (body) {
-  const res = await $fetch("/api/marker", {
+import type { Marker } from "@/stores/useMarkerStore";
+
+interface SaveMarkerResponse {
+  message?: string;
+}
+
+export default async function useSaveNewMarker(body: Marker): Promise<SaveMarkerResponse> {
+  const res = await $fetch<SaveMarkerResponse>("/api/marker", {
     method: "POST",
     body,
     onResponse({ response }) {

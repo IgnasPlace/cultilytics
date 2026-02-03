@@ -1,6 +1,11 @@
-export default async function (imageId, markerId) {
-  const res = await $fetch(`/api/marker-image/${imageId}`, {
+interface DeleteMarkerResponse {
+  message?: string;
+}
+
+export default async function useDeleteMarker(id: string): Promise<DeleteMarkerResponse> {
+  const res = await $fetch<DeleteMarkerResponse>("/api/marker", {
     method: "DELETE",
+    body: { id },
     onResponse({ response }) {
       const toast = useToast();
       if (!response.ok) {
@@ -15,9 +20,11 @@ export default async function (imageId, markerId) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
         const markerStore = useStore("markers");
-        markerStore.deleteMarkerImage(markerId, parseInt(imageId, 10));
+        markerStore.deleteMarker(id);
+        markerStore.setCurrentSelectedMarker(null);
+        markerStore.closeInfoWidget();
         toast.success({
-          title: "Image Deleted",
+          title: "Marker Deleted.",
           position: "topCenter",
         });
       }
@@ -27,10 +34,8 @@ export default async function (imageId, markerId) {
 
       if (response.status === 401) {
         throw new Error("Authentication required");
-      } else if (response.status === 403) {
-        throw new Error("Permission denied");
       } else if (response.status === 404) {
-        throw new Error("Image not found");
+        throw new Error("Resource not found");
       } else {
         throw new Error(`API error: ${errorData}`);
       }

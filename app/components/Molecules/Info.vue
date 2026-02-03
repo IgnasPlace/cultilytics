@@ -85,8 +85,13 @@
       </div>
 
       <!-- Pending Tasks -->
-      <div v-if="pendingTasks.length > 0" class="px-4 py-3 border-b border-gray-200 bg-yellow-50">
-        <h4 class="text-xs font-medium text-yellow-800 uppercase mb-2">Pending Tasks ({{ pendingTasks.length }})</h4>
+      <div
+        v-if="pendingTasks.length > 0"
+        class="px-4 py-3 border-b border-gray-200 bg-yellow-50"
+      >
+        <h4 class="text-xs font-medium text-yellow-800 uppercase mb-2">
+          Pending Tasks ({{ pendingTasks.length }})
+        </h4>
         <div class="space-y-2">
           <div
             v-for="task in pendingTasks.slice(0, 3)"
@@ -98,13 +103,31 @@
               :disabled="completingTaskId === task.id"
               class="w-5 h-5 rounded border-2 border-yellow-400 hover:border-green-500 hover:bg-green-50 flex items-center justify-center transition-colors"
             >
-              <AtomsIcon v-if="completingTaskId === task.id" name="spinner" size="sm" />
+              <AtomsIcon
+                v-if="completingTaskId === task.id"
+                name="spinner"
+                size="sm"
+              />
             </button>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium text-gray-900 truncate">{{ formatTaskType(task.taskType) }}</p>
-              <p class="text-xs text-gray-500">Due {{ formatDate(task.dueDate) }}</p>
+              <p class="text-sm font-medium text-gray-900 truncate">
+                {{ formatTaskType(task.taskType) }}
+              </p>
+              <p class="text-xs text-gray-500">
+                Due {{ formatDate(task.dueDate) }}
+              </p>
             </div>
-            <AtomsBadge :variant="task.priority === 'high' ? 'error' : task.priority === 'medium' ? 'warning' : 'info'" size="sm">{{ task.priority }}</AtomsBadge>
+            <AtomsBadge
+              :variant="
+                task.priority === 'high'
+                  ? 'error'
+                  : task.priority === 'medium'
+                    ? 'warning'
+                    : 'info'
+              "
+              size="sm"
+              >{{ task.priority }}</AtomsBadge
+            >
           </div>
         </div>
       </div>
@@ -118,14 +141,20 @@
       />
 
       <!-- Quick Stats -->
-      <div class="grid grid-cols-2 gap-2 px-4 py-3 border-t border-gray-200 bg-gray-50">
+      <div
+        class="grid grid-cols-2 gap-2 px-4 py-3 border-t border-gray-200 bg-gray-50"
+      >
         <div class="bg-white p-2 rounded-md border border-gray-200">
           <p class="text-xs text-gray-500 uppercase">Total Yield</p>
-          <p class="text-lg font-semibold text-gray-900">{{ formatYield(data.yieldRecords) }}</p>
+          <p class="text-lg font-semibold text-gray-900">
+            {{ formatYield(data.yieldRecords) }}
+          </p>
         </div>
         <div class="bg-white p-2 rounded-md border border-gray-200">
           <p class="text-xs text-gray-500 uppercase">Total Expenses</p>
-          <p class="text-lg font-semibold text-red-600">{{ formatExpenses(data.expenses) }}</p>
+          <p class="text-lg font-semibold text-red-600">
+            {{ formatExpenses(data.expenses) }}
+          </p>
         </div>
       </div>
 
@@ -161,9 +190,9 @@
   </div>
 
   <!-- Desktop Layout -->
-
-  <!-- Desktop Layout -->
-  <div class="hidden sm:block max-w-sm mx-auto absolute top-3 left-3 bg-white rounded-md z-20 shadow-lg">
+  <div
+    class="hidden sm:block min-w-96 max-w-lg mx-auto absolute top-3 left-3 bg-white rounded-md z-20 shadow-lg"
+  >
     <div class="max-h-[85vh] overflow-y-auto">
       <!-- Close Button -->
       <div class="flex justify-end px-3 pt-2 sticky top-0 bg-white z-10">
@@ -245,8 +274,13 @@
       </div>
 
       <!-- Pending Tasks -->
-      <div v-if="pendingTasks.length > 0" class="px-4 py-3 border-b border-gray-200 bg-yellow-50">
-        <h4 class="text-xs font-medium text-yellow-800 uppercase mb-2">Pending Tasks ({{ pendingTasks.length }})</h4>
+      <div
+        v-if="pendingTasks.length > 0"
+        class="px-4 py-3 border-b border-gray-200 bg-yellow-50"
+      >
+        <h4 class="text-xs font-medium text-yellow-800 uppercase mb-2">
+          Pending Tasks ({{ pendingTasks.length }})
+        </h4>
         <div class="space-y-2">
           <div
             v-for="task in pendingTasks.slice(0, 3)"
@@ -258,13 +292,31 @@
               :disabled="completingTaskId === task.id"
               class="w-5 h-5 rounded border-2 border-yellow-400 hover:border-green-500 hover:bg-green-50 flex items-center justify-center transition-colors"
             >
-              <AtomsIcon v-if="completingTaskId === task.id" name="spinner" size="sm" />
+              <AtomsIcon
+                v-if="completingTaskId === task.id"
+                name="spinner"
+                size="sm"
+              />
             </button>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium text-gray-900 truncate">{{ formatTaskType(task.taskType) }}</p>
-              <p class="text-xs text-gray-500">Due {{ formatDate(task.dueDate) }}</p>
+              <p class="text-sm font-medium text-gray-900 truncate">
+                {{ formatTaskType(task.taskType) }}
+              </p>
+              <p class="text-xs text-gray-500">
+                Due {{ formatDate(task.dueDate) }}
+              </p>
             </div>
-            <AtomsBadge :variant="task.priority === 'high' ? 'error' : task.priority === 'medium' ? 'warning' : 'info'" size="sm">{{ task.priority }}</AtomsBadge>
+            <AtomsBadge
+              :variant="
+                task.priority === 'high'
+                  ? 'error'
+                  : task.priority === 'medium'
+                    ? 'warning'
+                    : 'info'
+              "
+              size="sm"
+              >{{ task.priority }}</AtomsBadge
+            >
           </div>
         </div>
       </div>
@@ -278,14 +330,20 @@
       />
 
       <!-- Quick Stats -->
-      <div class="grid grid-cols-2 gap-2 px-4 py-3 border-t border-gray-200 bg-gray-50">
+      <div
+        class="grid grid-cols-2 gap-2 px-4 py-3 border-t border-gray-200 bg-gray-50"
+      >
         <div class="bg-white p-2 rounded-md border border-gray-200">
           <p class="text-xs text-gray-500 uppercase">Total Yield</p>
-          <p class="text-lg font-semibold text-gray-900">{{ formatYield(data.yieldRecords) }}</p>
+          <p class="text-lg font-semibold text-gray-900">
+            {{ formatYield(data.yieldRecords) }}
+          </p>
         </div>
         <div class="bg-white p-2 rounded-md border border-gray-200">
           <p class="text-xs text-gray-500 uppercase">Total Expenses</p>
-          <p class="text-lg font-semibold text-red-600">{{ formatExpenses(data.expenses) }}</p>
+          <p class="text-lg font-semibold text-red-600">
+            {{ formatExpenses(data.expenses) }}
+          </p>
         </div>
       </div>
 
@@ -321,7 +379,11 @@
   </div>
 
   <!-- Treatment Form Modal -->
-  <AtomsModal :is-open="showAddTreatment" title="Add Treatment" @close="showAddTreatment = false">
+  <AtomsModal
+    :is-open="showAddTreatment"
+    title="Add Treatment"
+    @close="showAddTreatment = false"
+  >
     <div class="w-full max-w-md">
       <MoleculesEntityForm
         :marker-id="data.id"
@@ -333,7 +395,11 @@
   </AtomsModal>
 
   <!-- Growth Form Modal -->
-  <AtomsModal :is-open="showAddGrowth" title="Add Height Measurement" @close="showAddGrowth = false">
+  <AtomsModal
+    :is-open="showAddGrowth"
+    title="Add Height Measurement"
+    @close="showAddGrowth = false"
+  >
     <div class="w-full max-w-md">
       <MoleculesEntityForm
         :marker-id="data.id"
@@ -345,7 +411,12 @@
   </AtomsModal>
 
   <!-- Task Form Modal -->
-  <AtomsModal :is-open="showAddTask" title="Create Task" @close="showAddTask = false" class="min-w-[90vw]">
+  <AtomsModal
+    :is-open="showAddTask"
+    title="Create Task"
+    @close="showAddTask = false"
+    class="min-w-[90vw]"
+  >
     <div class="w-full max-w-md">
       <MoleculesEntityForm
         :marker-id="data.id"
@@ -357,7 +428,11 @@
   </AtomsModal>
 
   <!-- Health Form Modal -->
-  <AtomsModal :is-open="showUpdateHealth" title="Update Health Status" @close="showUpdateHealth = false">
+  <AtomsModal
+    :is-open="showUpdateHealth"
+    title="Update Health Status"
+    @close="showUpdateHealth = false"
+  >
     <div class="w-full max-w-md">
       <MoleculesEntityForm
         :marker-id="data.id"
@@ -369,7 +444,11 @@
   </AtomsModal>
 
   <!-- Yield Form Modal -->
-  <AtomsModal :is-open="showAddYield" title="Record Harvest" @close="showAddYield = false">
+  <AtomsModal
+    :is-open="showAddYield"
+    title="Record Harvest"
+    @close="showAddYield = false"
+  >
     <div class="w-full max-w-md">
       <MoleculesEntityForm
         :marker-id="data.id"
@@ -381,7 +460,11 @@
   </AtomsModal>
 
   <!-- Expense Form Modal -->
-  <AtomsModal :is-open="showAddExpense" title="Add Expense" @close="showAddExpense = false">
+  <AtomsModal
+    :is-open="showAddExpense"
+    title="Add Expense"
+    @close="showAddExpense = false"
+  >
     <div class="w-full max-w-md">
       <MoleculesEntityForm
         :marker-id="data.id"
@@ -414,8 +497,8 @@ import {
   healthFormConfig,
   taskFormConfig,
   yieldFormConfig,
-  expenseFormConfig
-} from '~/config/forms';
+  expenseFormConfig,
+} from "~/config/forms";
 
 const props = defineProps(["data"]);
 
@@ -435,18 +518,20 @@ const isDeleting = ref(false);
 const completingTaskId = ref(null);
 
 const latestHealth = computed(() => {
-  if (!props.data?.healthRecords || props.data.healthRecords.length === 0) return null;
+  if (!props.data?.healthRecords || props.data.healthRecords.length === 0)
+    return null;
   return props.data.healthRecords[0];
 });
 
 const latestGrowth = computed(() => {
-  if (!props.data?.growthRecords || props.data.growthRecords.length === 0) return null;
+  if (!props.data?.growthRecords || props.data.growthRecords.length === 0)
+    return null;
   return props.data.growthRecords[0];
 });
 
 const pendingTasks = computed(() => {
   if (!props.data?.tasks) return [];
-  return props.data.tasks.filter(task => !task.completedAt);
+  return props.data.tasks.filter((task) => !task.completedAt);
 });
 
 const closeWidget = () => {
@@ -465,7 +550,7 @@ const confirmDelete = async () => {
     showDeleteConfirm.value = false;
     closeWidget();
   } catch (err) {
-    console.error('Failed to delete marker:', err);
+    console.error("Failed to delete marker:", err);
   } finally {
     isDeleting.value = false;
   }
@@ -500,7 +585,9 @@ const refreshMarkerData = async () => {
     const refreshedData = await $fetch(`/api/marker/${props.data.id}`);
 
     // Update the marker in savedMarkers array
-    const markerIndex = markerStore.savedMarkers.findIndex(m => m.id === props.data.id);
+    const markerIndex = markerStore.savedMarkers.findIndex(
+      (m) => m.id === props.data.id,
+    );
     if (markerIndex !== -1) {
       markerStore.savedMarkers[markerIndex] = refreshedData;
     }
@@ -508,7 +595,7 @@ const refreshMarkerData = async () => {
     // Update currentSelectedMarker to trigger reactivity
     markerStore.setCurrentSelectedMarker(refreshedData);
   } catch (err) {
-    console.error('Failed to refresh marker data:', err);
+    console.error("Failed to refresh marker data:", err);
   }
 };
 
@@ -544,34 +631,34 @@ const handleExpenseSuccess = async () => {
 
 const formatTaskType = (type) => {
   const types = {
-    water: 'Water',
-    fertilize: 'Fertilize',
-    prune: 'Prune',
-    inspect: 'Inspect',
-    harvest: 'Harvest',
-    other: 'Other'
+    water: "Water",
+    fertilize: "Fertilize",
+    prune: "Prune",
+    inspect: "Inspect",
+    harvest: "Harvest",
+    other: "Other",
   };
   return types[type] || type;
 };
 
 const formatDate = (timestamp) => {
-  if (!timestamp) return '';
+  if (!timestamp) return "";
   const date = new Date(timestamp);
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 };
 
 const formatYield = (records) => {
-  if (!records || records.length === 0) return '0 kg';
+  if (!records || records.length === 0) return "0 kg";
   const totalKg = records.reduce((sum, r) => {
-    if (r.unit === 'kg') return sum + r.quantity / 100;
-    if (r.unit === 'g') return sum + r.quantity / 100000;
+    if (r.unit === "kg") return sum + r.quantity / 100;
+    if (r.unit === "g") return sum + r.quantity / 100000;
     return sum;
   }, 0);
   return `${totalKg.toFixed(1)} kg`;
 };
 
 const formatExpenses = (expenses) => {
-  if (!expenses || expenses.length === 0) return '€0';
+  if (!expenses || expenses.length === 0) return "€0";
   const total = expenses.reduce((sum, e) => sum + e.amount, 0);
   return `€${(total / 100).toFixed(2)}`;
 };
@@ -580,13 +667,13 @@ const completeTask = async (taskId) => {
   completingTaskId.value = taskId;
   try {
     await $fetch(`/api/marker/${props.data.id}/tasks/${taskId}`, {
-      method: 'PATCH',
-      body: { completed: true }
+      method: "PATCH",
+      body: { completed: true },
     });
     await refreshMarkerData();
   } catch (err) {
-    console.error('Failed to complete task:', err);
-    alert('Failed to complete task');
+    console.error("Failed to complete task:", err);
+    alert("Failed to complete task");
   } finally {
     completingTaskId.value = null;
   }

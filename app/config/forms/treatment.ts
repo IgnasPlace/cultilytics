@@ -1,9 +1,11 @@
+import type { FormConfig } from './types';
+
 /**
  * Form configuration for Treatment form
  * Used with EntityForm component
  */
-export const treatmentFormConfig = {
-  endpoint: (markerId) => `/api/marker/${markerId}/treatments`,
+export const treatmentFormConfig: FormConfig = {
+  endpoint: (markerId: string) => `/api/marker/${markerId}/treatments`,
   submitButtonText: 'Save',
   fields: [
     {
@@ -53,14 +55,14 @@ export const treatmentFormConfig = {
       rows: 3
     }
   ],
-  transformData: (formData) => ({
+  transformData: (formData: Record<string, any>) => ({
     type: formData.type,
     date: new Date(formData.date).getTime(),
     cost: formData.cost !== '' ? Math.round(parseFloat(formData.cost) * 100) : undefined,
     products: formData.products || undefined,
     notes: formData.notes || undefined
   }),
-  validate: (formData) => {
+  validate: (formData: Record<string, any>) => {
     if (!formData.type) return 'Please select a treatment type';
     return null;
   }

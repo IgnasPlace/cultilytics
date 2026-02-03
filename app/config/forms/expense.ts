@@ -1,9 +1,11 @@
+import type { FormConfig } from './types';
+
 /**
  * Form configuration for Expense form
  * Used with EntityForm component
  */
-export const expenseFormConfig = {
-  endpoint: (markerId) => `/api/marker/${markerId}/expenses`,
+export const expenseFormConfig: FormConfig = {
+  endpoint: (markerId: string) => `/api/marker/${markerId}/expenses`,
   submitButtonText: 'Add Expense',
   fields: [
     {
@@ -47,13 +49,13 @@ export const expenseFormConfig = {
       rows: 2
     }
   ],
-  transformData: (formData) => ({
+  transformData: (formData: Record<string, any>) => ({
     category: formData.category,
     amount: Math.round(parseFloat(formData.amount) * 100),
     date: new Date(formData.date).getTime(),
     description: formData.description || null
   }),
-  validate: (formData) => {
+  validate: (formData: Record<string, any>) => {
     if (!formData.category) return 'Please select a category';
     if (!formData.amount || parseFloat(formData.amount) <= 0) {
       return 'Please enter a valid amount';
