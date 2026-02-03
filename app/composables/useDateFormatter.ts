@@ -2,13 +2,20 @@
  * Composable for centralized date formatting
  * Eliminates duplicate date formatting logic across components
  */
-export function useDateFormatter() {
+export function useDateFormatter(): {
+  formatShortDate: (timestamp: number | string | Date) => string;
+  formatMediumDate: (timestamp: number | string | Date) => string;
+  formatLongDate: (timestamp: number | string | Date) => string;
+  formatISODate: (timestamp: number | string | Date) => string;
+  formatRelativeTime: (timestamp: number | string | Date) => string;
+  formatTime: (timestamp: number | string | Date) => string;
+} {
   /**
    * Format a timestamp to a short date string (e.g., "Jan 15")
-   * @param {number|string|Date} timestamp - Date timestamp or Date object
-   * @returns {string} Formatted date string
+   * @param timestamp - Date timestamp or Date object
+   * @returns Formatted date string
    */
-  const formatShortDate = (timestamp) => {
+  const formatShortDate = (timestamp: number | string | Date): string => {
     if (!timestamp) return '';
     const date = new Date(timestamp);
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
@@ -16,10 +23,10 @@ export function useDateFormatter() {
 
   /**
    * Format a timestamp to a medium date string (e.g., "Jan 15, 2024")
-   * @param {number|string|Date} timestamp - Date timestamp or Date object
-   * @returns {string} Formatted date string
+   * @param timestamp - Date timestamp or Date object
+   * @returns Formatted date string
    */
-  const formatMediumDate = (timestamp) => {
+  const formatMediumDate = (timestamp: number | string | Date): string => {
     if (!timestamp) return '';
     const date = new Date(timestamp);
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -27,10 +34,10 @@ export function useDateFormatter() {
 
   /**
    * Format a timestamp to a long date string (e.g., "January 15, 2024")
-   * @param {number|string|Date} timestamp - Date timestamp or Date object
-   * @returns {string} Formatted date string
+   * @param timestamp - Date timestamp or Date object
+   * @returns Formatted date string
    */
-  const formatLongDate = (timestamp) => {
+  const formatLongDate = (timestamp: number | string | Date): string => {
     if (!timestamp) return '';
     const date = new Date(timestamp);
     return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -38,21 +45,22 @@ export function useDateFormatter() {
 
   /**
    * Format a timestamp to ISO date format for input fields (YYYY-MM-DD)
-   * @param {number|string|Date} timestamp - Date timestamp or Date object
-   * @returns {string} ISO date string
+   * @param timestamp - Date timestamp or Date object
+   * @returns ISO date string
    */
-  const formatISODate = (timestamp) => {
+  const formatISODate = (timestamp: number | string | Date): string => {
     if (!timestamp) return '';
     const date = new Date(timestamp);
-    return date.toISOString().split('T')[0];
+    const result = date.toISOString().split('T')[0];
+    return result ?? '';
   };
 
   /**
    * Format a timestamp to a relative time string (e.g., "2 days ago", "in 3 hours")
-   * @param {number|string|Date} timestamp - Date timestamp or Date object
-   * @returns {string} Relative time string
+   * @param timestamp - Date timestamp or Date object
+   * @returns Relative time string
    */
-  const formatRelativeTime = (timestamp) => {
+  const formatRelativeTime = (timestamp: number | string | Date): string => {
     if (!timestamp) return '';
     const date = new Date(timestamp);
     const now = new Date();
@@ -80,10 +88,10 @@ export function useDateFormatter() {
 
   /**
    * Format a timestamp to a time string (e.g., "2:30 PM")
-   * @param {number|string|Date} timestamp - Date timestamp or Date object
-   * @returns {string} Time string
+   * @param timestamp - Date timestamp or Date object
+   * @returns Time string
    */
-  const formatTime = (timestamp) => {
+  const formatTime = (timestamp: number | string | Date): string => {
     if (!timestamp) return '';
     const date = new Date(timestamp);
     return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });

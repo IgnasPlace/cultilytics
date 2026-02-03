@@ -50,6 +50,7 @@ const config = useRuntimeConfig();
 let map;
 
 const markerStore = useStore("markers");
+const loadingStore = useLoading();
 const {
   addMarkerMode,
   currentPopup,
@@ -99,8 +100,10 @@ const loadAllMarkers = async (map) => {
     const markers = await $fetch("/api/marker");
 
     markerStore.setSavedMarkers(markers);
+    loadingStore.stopLoading();
   } catch (err) {
     console.log(err);
+    loadingStore.stopLoading();
   }
 };
 

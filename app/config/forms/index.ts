@@ -5,9 +5,10 @@ import { healthFormConfig } from './health';
 import { taskFormConfig } from './task';
 import { yieldFormConfig } from './yield';
 import { expenseFormConfig } from './expense';
+import type { FormConfig } from './types';
 
 // Map of form types to configurations
-export const formConfigs = {
+export const formConfigs: Record<string, FormConfig> = {
   treatment: treatmentFormConfig,
   growth: growthFormConfig,
   health: healthFormConfig,

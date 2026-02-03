@@ -1,9 +1,11 @@
+import type { FormConfig } from './types';
+
 /**
  * Form configuration for Health form
  * Used with EntityForm component
  */
-export const healthFormConfig = {
-  endpoint: (markerId) => `/api/marker/${markerId}/health`,
+export const healthFormConfig: FormConfig = {
+  endpoint: (markerId: string) => `/api/marker/${markerId}/health`,
   submitButtonText: 'Save',
   fields: [
     {
@@ -36,12 +38,12 @@ export const healthFormConfig = {
       rows: 3
     }
   ],
-  transformData: (formData) => ({
+  transformData: (formData: Record<string, any>) => ({
     status: formData.status,
     recordedAt: new Date(formData.date).getTime(),
     notes: formData.notes || null
   }),
-  validate: (formData) => {
+  validate: (formData: Record<string, any>) => {
     if (!formData.status) return 'Please select a health status';
     return null;
   }

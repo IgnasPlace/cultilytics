@@ -1,9 +1,11 @@
+import type { FormConfig } from './types';
+
 /**
  * Form configuration for Task form
  * Used with EntityForm component
  */
-export const taskFormConfig = {
-  endpoint: (markerId) => `/api/marker/${markerId}/tasks`,
+export const taskFormConfig: FormConfig = {
+  endpoint: (markerId: string) => `/api/marker/${markerId}/tasks`,
   submitButtonText: 'Create Task',
   fields: [
     {
@@ -49,13 +51,13 @@ export const taskFormConfig = {
       rows: 2
     }
   ],
-  transformData: (formData) => ({
+  transformData: (formData: Record<string, any>) => ({
     taskType: formData.taskType,
     dueDate: new Date(formData.dueDate).getTime(),
     priority: formData.priority,
     notes: formData.notes || null
   }),
-  validate: (formData) => {
+  validate: (formData: Record<string, any>) => {
     if (!formData.taskType) return 'Please select a task type';
     if (!formData.priority) return 'Please select a priority';
     return null;
