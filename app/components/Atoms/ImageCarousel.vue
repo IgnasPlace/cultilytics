@@ -1,5 +1,5 @@
 <template>
-  <AtomsModal :is-open="true" @close="$emit('close')">
+  <AtomsModal :is-open="true" :title="markerId" @close="$emit('close')">
     <div class="flex flex-col h-full">
       <!-- Main Image Container -->
       <div
@@ -87,47 +87,47 @@
 
       <!-- Image Information -->
       <div class="bg-white border-t border-gray-200 p-4">
-        <div class="text-center mb-3">
-          <h3 class="text-gray-800 font-medium truncate">
-            {{ currentImage?.desc || "Image" }}
-          </h3>
-          <p class="text-sm text-gray-500">
-            {{ formatDate(currentImage?.createdAt) }}
-          </p>
-        </div>
+        <div class="flex items-center">
+          <!-- Left: Date -->
+          <div class="flex-1 flex justify-start">
+            <p class="text-sm text-gray-500">
+              {{ formatDate(currentImage?.createdAt) }}
+            </p>
+          </div>
 
-        <!-- Action Buttons -->
-        <div class="flex justify-center gap-3 mb-4">
-          <button
-            v-if="canDeleteCurrentImage"
-            @click="confirmDelete"
-            class="px-4 py-2 bg-red-100 text-red-700 rounded-md hover:bg-red-200 transition-colors flex items-center gap-2 text-sm font-medium"
-            :disabled="isDeleting"
+          <!-- Center: Dots Indicator -->
+          <div
+            v-if="images.length > 1"
+            class="flex justify-center items-center gap-2"
           >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-            {{ isDeleting ? 'Deleting...' : 'Delete' }}
-          </button>
-        </div>
+            <button
+              v-for="(_, index) in images"
+              :key="index"
+              @click="goToImage(index)"
+              :class="[
+                'w-2 h-2 rounded-full transition-all duration-200',
+                index === currentIndex
+                  ? 'bg-primary w-8'
+                  : 'bg-gray-300 hover:bg-gray-400',
+              ]"
+              :aria-label="`Go to image ${index + 1}`"
+            />
+          </div>
 
-        <!-- Dots Indicator -->
-        <div
-          v-if="images.length > 1"
-          class="flex justify-center items-center gap-2"
-        >
-          <button
-            v-for="(_, index) in images"
-            :key="index"
-            @click="goToImage(index)"
-            :class="[
-              'w-2 h-2 rounded-full transition-all duration-200',
-              index === currentIndex
-                ? 'bg-primary w-8'
-                : 'bg-gray-300 hover:bg-gray-400',
-            ]"
-            :aria-label="`Go to image ${index + 1}`"
-          />
+          <!-- Right: Delete Button -->
+          <div class="flex-1 flex justify-end">
+            <button
+              v-if="canDeleteCurrentImage"
+              @click="confirmDelete"
+              class="w-8 h-8 bg-red-100 text-red-700 rounded-full hover:bg-red-200 transition-colors flex items-center justify-center"
+              :disabled="isDeleting"
+              :aria-label="isDeleting ? 'Deleting...' : 'Delete image'"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>

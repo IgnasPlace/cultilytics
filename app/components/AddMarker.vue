@@ -5,13 +5,16 @@
   >
     <AtomsSpinner />
   </div>
-  <div class="absolute top-3 left-3 text-xs z-10 bg-white p-2 rounded-md max-w-[280px]">
+  <div
+    class="absolute top-3 left-3 text-xs z-10 bg-white p-2 rounded-md max-w-[280px]"
+  >
     <button
       v-if="addMarkerMode === 'off'"
       class=""
       @click="() => markerStore.setActivateAddMarkerMode('add')"
     >
-      <span class="text-green-600">+</span> Add new <span v-if="isMac" class="text-gray-400 ml-2">⌘+A</span>
+      <span class="text-green-600">+</span> Add new
+      <span v-if="isMac" class="text-gray-400 ml-2">⌘+A</span>
     </button>
     <div v-else-if="addMarkerMode === 'add'">
       <p class="mb-2">Please click on the map to add a marker</p>
@@ -119,7 +122,7 @@ const submitSaveMarker = async () => {
     lng: currentUnsavedMarker.value.lng,
     lat: currentUnsavedMarker.value.lat,
     type: inputs.type,
-    color: COLORS.PRIMARY,
+    color: COLORS.MARKER,
     name: inputs.name,
   };
   try {

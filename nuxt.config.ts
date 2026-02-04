@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     "nuxt-auth-utils",
     "nuxt-security",
   ],
-  plugins: ["~/plugins/maplibre.js"],
+  plugins: ["~/plugins/maplibre.client.ts"],
   ssr: false,
   nitro: {
     experimental: {
