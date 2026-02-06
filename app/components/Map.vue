@@ -5,7 +5,7 @@
       <MglScaleControl position="bottom-left" />
       <MglMarker
         v-for="(marker, idx) in allMarkers"
-        :key="idx"
+        :key="marker.id"
         ref="markers"
         :coordinates="[marker.lng, marker.lat]"
         :color="marker.color"

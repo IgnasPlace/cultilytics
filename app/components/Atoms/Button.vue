@@ -1,16 +1,18 @@
 <template>
-  <button
-    :type="type"
-    :disabled="disabled || loading"
+  <component
+    :is="to ? 'NuxtLink' : 'button'"
+    :to="to"
+    :type="to ? undefined : type"
+    :disabled="to ? undefined : (disabled || loading)"
     :class="buttonClasses"
-    @click="$emit('click', $event)"
+    @click="to ? undefined : $emit('click', $event)"
   >
     <span
       v-if="loading"
       class="inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full shrink-0 animate-spin"
     />
     <slot />
-  </button>
+  </component>
 </template>
 
 <script setup>
@@ -42,6 +44,10 @@ const props = defineProps({
   block: {
     type: Boolean,
     default: false
+  },
+  to: {
+    type: String,
+    default: ''
   }
 });
 
@@ -68,7 +74,8 @@ const buttonClasses = computed(() => {
     baseClasses,
     sizeClasses[props.size],
     variantClasses[props.variant],
-    props.block ? 'w-full' : ''
+    props.block ? 'w-full' : '',
+    props.to ? 'cursor-pointer' : ''
   ].join(' ');
 });
 </script>
